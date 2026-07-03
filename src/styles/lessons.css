@@ -1,0 +1,47 @@
+/* Burgundy theme for the Starlight lessons, matching the marketing site.
+   Starlight is themed by overriding its CSS custom properties. Dark mode is
+   the `:root` default; light mode is `:root[data-theme='light']`.
+   See https://starlight.astro.build/guides/css-and-tailwind/ */
+
+/* Accent — burgundy. Drives links, active sidebar item, focus rings, buttons. */
+:root {
+	--sl-color-accent-low: #3a0f1c;
+	--sl-color-accent: #a3324c;
+	--sl-color-accent-high: #f0b8c4;
+}
+
+:root[data-theme='light'] {
+	--sl-color-accent-low: #ffd9e0;
+	--sl-color-accent: #8c1f3f;
+	--sl-color-accent-high: #4d0f22;
+}
+
+/* Warm the neutral grays toward the marketing site's paper/ink tones so the
+   two halves of the site read as one. */
+:root {
+	--sl-color-white: #f5ece7;
+	--sl-color-gray-1: #eaddd8;
+	--sl-color-gray-2: #c9a8ad;
+	--sl-color-gray-3: #9c7c82;
+	--sl-color-gray-4: #6b4c52;
+	--sl-color-gray-5: #3a1e24;
+	--sl-color-gray-6: #241016;
+	--sl-color-black: #150b0d;
+}
+
+:root[data-theme='light'] {
+	--sl-color-white: #1a1210;
+	--sl-color-gray-1: #2a1c19;
+	--sl-color-gray-2: #4d3d38;
+	--sl-color-gray-3: #6b5d59;
+	--sl-color-gray-4: #97867f;
+	--sl-color-gray-5: #d6c5bd;
+	--sl-color-gray-6: #f2e7e0;
+	--sl-color-gray-7: #fbf3ee;
+	--sl-color-black: #fff8f4;
+}
+
+/* The "1°N" wordmark in the site header uses the gold accent as a tie-in. */
+.site-title {
+	font-weight: 700;
+}

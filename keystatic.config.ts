@@ -32,7 +32,7 @@ export default config({
 	// After deploying, switch to GitHub mode so editors can work in the
 	// browser without installing anything — see HANDOFF.md, section "CMS".
 	storage: { kind: 'local' },
-	// storage: { kind: 'github', repo: 'one-degree-north/website' },
+	// storage: { kind: 'github', repo: 'one-degree-north/FRC-Website' },
 	ui: {
 		brand: { name: 'One Degree North' },
 	},

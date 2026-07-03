@@ -28,24 +28,6 @@ mm.add('(prefers-reduced-motion: no-preference)', () => {
 		});
 	}
 
-	// Signature moment: each latitude line draws outward from its
-	// coordinate label as it scrolls into view (--line-scale drives a
-	// scaleX on the line's ::before/::after rules, see Layout.astro).
-	for (const line of gsap.utils.toArray('.latitude-line')) {
-		gsap.from(line, {
-			'--line-scale': 0,
-			duration: 1.1,
-			ease: 'power3.out',
-			scrollTrigger: { trigger: line, ...reveal },
-		});
-		gsap.from(line.querySelector('span'), {
-			autoAlpha: 0,
-			duration: 0.5,
-			delay: 0.3,
-			scrollTrigger: { trigger: line, ...reveal },
-		});
-	}
-
 	// Sections below the fold rise gently into view. The record section is
 	// excluded — its stats get their own staggered entrance below.
 	for (const section of gsap.utils.toArray(

@@ -1,6 +1,56 @@
 {
 	"tagline": "Southeast Asia's First FRC Team",
-	"homeIntro": "We are One Degree North, FRC Team 4817 from Singapore American School. Since 2013 we've been designing, building, and programming competition robots — and teaching the next generation of our team how to do the same.",
+	"homeIntro": "Southeast Asia's first FRC team — designing, building, and programming competition robots since 2013, and teaching the next generation how to do the same.",
 	"aboutStory": "One Degree North began in 2013 as a small group of students tinkering with Lego Mindstorms. Today we are a team of around 30 students who design, machine, wire, and program a full-scale competition robot every season as Southeast Asia's first FRC team.\n\nOur team is built on communication, collaboration, innovation, and sportsmanship. Experienced members mentor new ones, and our alumni — now at schools like UC Berkeley, Duke, Princeton, Brown, and Waterloo — stay involved long after they graduate.\n\nEveryone on the team belongs to a subteam, and every subteam runs its own training modules so knowledge gets passed down season after season.",
-	"contactEmail": "frc4817@sas.edu.sg"
+	"contactEmail": "frc4817@sas.edu.sg",
+	"values": [
+		{
+			"name": "Communication",
+			"detail": "Design reviews, match strategy, sponsor pitches — we practice saying it clearly."
+		},
+		{
+			"name": "Collaboration",
+			"detail": "Five subteams ship one robot. Nothing works unless it works together."
+		},
+		{
+			"name": "Innovation",
+			"detail": "Every season is a new game with no known answers. We prototype early and often."
+		},
+		{
+			"name": "Sportsmanship",
+			"detail": "Gracious professionalism on and off the field, win or lose."
+		}
+	],
+	"milestones": [
+		{
+			"year": "2013",
+			"event": "Founded at Singapore American School — Southeast Asia's first FRC team."
+		},
+		{
+			"year": "2019",
+			"event": "Regional Engineering Inspiration Award and our first trip to the FIRST Championship in Detroit."
+		},
+		{
+			"year": "2024",
+			"event": "Woodie Flowers Finalist Award at the Southern Cross Regional."
+		},
+		{
+			"year": "2025",
+			"event": "Regional Winners at the Hawaii Regional."
+		}
+	],
+	"outreachPrograms": [
+		{
+			"title": "[ Community STEM day ]",
+			"body": "[ Placeholder — describe the workshops the team runs for local schools ]"
+		},
+		{
+			"title": "[ Mentorship network ]",
+			"body": "[ Placeholder — describe how alumni and mentors stay involved ]"
+		},
+		{
+			"title": "[ Sponsor partnerships ]",
+			"body": "[ Placeholder — describe how the team works with sponsors ]"
+		}
+	]
 }

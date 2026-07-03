@@ -1,7 +1,7 @@
 ---
-import '@fontsource-variable/archivo';
-import '@fontsource/ibm-plex-mono/400.css';
-import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/bricolage-grotesque';
 import site from '../data/site.json';
 
 interface Props {
@@ -26,11 +26,19 @@ const currentPath = Astro.url.pathname;
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
 		<title>{title} · One Degree North · FRC 4817</title>
+		<script is:inline>
+			// Apply the saved theme before first paint to avoid a flash.
+			try {
+				if (localStorage.getItem('odn-theme') === 'dark') {
+					document.documentElement.dataset.theme = 'dark';
+				}
+			} catch (e) {}
+		</script>
 	</head>
 	<body>
 		<header class="site-header">
 			<a class="wordmark" href="/">
-				<span class="wordmark-degree">1°N</span>
+				<span class="wordmark-badge">1°N</span>
 				<span class="wordmark-text">One Degree North<small>FRC Team 4817</small></span>
 			</a>
 			<nav aria-label="Main">
@@ -38,66 +46,95 @@ const currentPath = Astro.url.pathname;
 					nav.map((item) => (
 						<a
 							href={item.href}
+							class:list={{ active: currentPath === item.href }}
 							aria-current={currentPath === item.href ? 'page' : undefined}
 						>
 							{item.label}
 						</a>
 					))
 				}
+				<button id="theme-toggle" type="button" aria-live="polite">Light ☀</button>
 			</nav>
 		</header>
 
-		<main>
-			<slot />
-		</main>
+		<div class="page">
+			<main>
+				<slot />
+			</main>
+
+			<footer class="site-footer">
+				<div class="footer-top">
+					<p class="footer-id">
+						<strong>One Degree North</strong> — FRC Team 4817, Singapore American School<br />
+						<a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
+					</p>
+					<span class="footer-coord">1.3521° N / 103.8198° E</span>
+				</div>
+				<div class="footer-bottom">
+					<span class="footer-follow">Follow the team</span>
+					<div class="footer-social">
+						<a href="#">Instagram</a>
+						<a href="#">YouTube</a>
+						<a href="https://frc-events.firstinspires.org/team/4817">FIRST Inspires</a>
+					</div>
+				</div>
+			</footer>
+		</div>
 
 		<script>
 			import '../scripts/scroll-animations.js';
 		</script>
-
-		<footer class="site-footer">
-			<div class="latitude-line" aria-hidden="true">
-				<span>1.3521° N</span>
-			</div>
-			<div class="footer-inner">
-				<p>
-					<strong>One Degree North</strong> — FRC Team 4817<br />
-					Singapore American School
-				</p>
-				<p>
-					<a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a><br />
-					<a href="https://frc-events.firstinspires.org/team/4817">
-						Our record on FIRST Inspires
-					</a>
-				</p>
-			</div>
-		</footer>
+		<script is:inline>
+			(() => {
+				const button = document.getElementById('theme-toggle');
+				const root = document.documentElement;
+				const setLabel = () => {
+					button.textContent = root.dataset.theme === 'dark' ? 'Dark ☾' : 'Light ☀';
+				};
+				setLabel();
+				button.addEventListener('click', () => {
+					const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+					if (next === 'dark') root.dataset.theme = 'dark';
+					else delete root.dataset.theme;
+					try {
+						localStorage.setItem('odn-theme', next);
+					} catch (e) {}
+					setLabel();
+				});
+			})();
+		</script>
 	</body>
 </html>
 
 <style is:global>
+	/* Design tokens — light mode (see design_handoff_burgundy_redesign/README.md) */
 	:root {
-		--ink: #101b2d;
-		--paper: #f7f8f6;
-		--steel: #33506d;
-		--brass: #96621c;
-		--needle: #c6402e;
+		--paper: #fff8f4;
+		--ink: #1a1210;
+		--steel: #6b5d59;
+		--accent: #8c1f3f;
+		--accent-text: #8c1f3f;
+		--accent2: #f2b632;
 		--surface: #ffffff;
-		--rule: #d5d9d3;
-		--font-display: 'Archivo Variable', system-ui, sans-serif;
-		--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+		--rule: #ecdfd9;
+		--block: #1a1210;
+		--grid: rgba(140, 31, 63, 0.06);
+		--font-body: 'Space Grotesk Variable', sans-serif;
+		--font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+		--font-badge: 'Bricolage Grotesque Variable', sans-serif;
 	}
 
-	@media (prefers-color-scheme: dark) {
-		:root {
-			--ink: #edf0ea;
-			--paper: #0e1624;
-			--steel: #9db4cc;
-			--brass: #d9a049;
-			--needle: #e0604c;
-			--surface: #16202f;
-			--rule: #2a3648;
-		}
+	:root[data-theme='dark'] {
+		--paper: #150b0d;
+		--ink: #f5ece7;
+		--steel: #c9a8ad;
+		--accent: #7a2331;
+		--accent-text: #e08a97;
+		--accent2: #f2b632;
+		--surface: #241016;
+		--rule: #3a1e24;
+		--block: #2a1015;
+		--grid: rgba(242, 182, 50, 0.08);
 	}
 
 	* {
@@ -106,23 +143,38 @@ const currentPath = Astro.url.pathname;
 
 	body {
 		margin: 0;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
 		background: var(--paper);
 		color: var(--ink);
-		font-family: var(--font-display);
-		font-size: 1.0625rem;
-		line-height: 1.65;
+		font-family: var(--font-body);
+		font-size: 16px;
+		line-height: 1.55;
+	}
+
+	/* Blueprint grid paper behind the whole content column; fills the
+	   viewport so the footer never floats on short pages. */
+	.page {
+		width: 100%;
+		max-width: 960px;
+		margin: 0 auto;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+			linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+		background-size: 28px 28px;
 	}
 
 	main {
-		max-width: 68rem;
-		margin: 0 auto;
-		padding: 0 1.5rem;
+		padding: 0 32px;
+		flex: 1;
 	}
 
 	h1,
 	h2,
 	h3 {
-		line-height: 1.15;
 		text-wrap: balance;
 	}
 
@@ -130,158 +182,206 @@ const currentPath = Astro.url.pathname;
 		color: inherit;
 	}
 
-	/* Recurring signature: a latitude line labelled with Singapore's coordinate.
-	   --line-scale must be declared here (not just as a var() fallback) so
-	   GSAP can read and animate it. */
-	.latitude-line {
-		--line-scale: 1;
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		margin: 3.5rem 0 2.5rem;
-	}
-
-	.latitude-line::before,
-	.latitude-line::after {
-		content: '';
-		flex: 1;
-		border-top: 1px solid var(--rule);
-		/* --line-scale is animated by scroll-animations.js to "draw" the line. */
-		transform: scaleX(var(--line-scale, 1));
-	}
-
-	.latitude-line::before {
-		flex: 0 0 2.5rem;
-		transform-origin: right;
-	}
-
-	.latitude-line::after {
-		transform-origin: left;
-	}
-
-	.latitude-line span {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		letter-spacing: 0.08em;
-		color: var(--steel);
-	}
-
+	/* Mono-caps eyebrow used at the top of major sections. */
 	.eyebrow {
 		font-family: var(--font-mono);
-		font-size: 0.8125rem;
+		font-size: 12px;
+		font-weight: 600;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		color: var(--needle);
+		color: var(--accent-text);
+		margin: 0 0 8px;
 	}
 
-	.button {
-		display: inline-block;
-		padding: 0.65rem 1.4rem;
-		border: 1.5px solid var(--ink);
-		border-radius: 2rem;
+	/* Blueprint-style "Fig. 0N / Section" annotation, one per major section. */
+	.fig-label {
+		font-family: var(--font-mono);
+		font-size: 10.5px;
 		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--accent-text);
+	}
+
+	.pill {
+		display: inline-block;
+		padding: 12px 22px;
+		border-radius: 24px;
+		font-weight: 700;
+		font-size: 14px;
 		text-decoration: none;
 		transition: background 0.15s, color 0.15s;
 	}
 
-	.button:hover,
-	.button:focus-visible {
-		background: var(--ink);
-		color: var(--paper);
-	}
-
-	.button.primary {
-		background: var(--needle);
-		border-color: var(--needle);
-		color: #fff;
-	}
-
-	.button.primary:hover,
-	.button.primary:focus-visible {
-		background: var(--ink);
-		border-color: var(--ink);
-		color: var(--paper);
-	}
-
 	:focus-visible {
-		outline: 2px solid var(--needle);
+		outline: 2px solid var(--accent-text);
 		outline-offset: 2px;
 	}
 </style>
 
 <style>
 	.site-header {
-		max-width: 68rem;
+		max-width: 960px;
 		margin: 0 auto;
-		padding: 1.25rem 1.5rem;
+		padding: 20px 32px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1rem;
+		gap: 12px;
 		flex-wrap: wrap;
+		background: var(--surface);
+		border-bottom: 1px solid var(--rule);
 	}
 
 	.wordmark {
 		display: flex;
 		align-items: center;
-		gap: 0.7rem;
+		gap: 10px;
 		text-decoration: none;
 	}
 
-	.wordmark-degree {
-		font-family: var(--font-mono);
-		font-weight: 500;
-		font-size: 1.05rem;
-		color: var(--paper);
-		background: var(--needle);
-		padding: 0.3rem 0.5rem;
-		border-radius: 0.35rem;
+	.wordmark-badge {
+		font-family: var(--font-badge);
+		font-weight: 800;
+		font-size: 15px;
+		color: #fff;
+		background: var(--accent);
+		padding: 6px 10px;
+		border-radius: 8px;
+		transform: rotate(-3deg);
+		display: inline-block;
 	}
 
 	.wordmark-text {
 		font-weight: 700;
-		letter-spacing: 0.01em;
+		font-size: 15px;
+		line-height: 1.2;
 	}
 
 	.wordmark-text small {
 		display: block;
 		font-family: var(--font-mono);
 		font-weight: 400;
-		font-size: 0.7rem;
+		font-size: 10px;
 		letter-spacing: 0.1em;
+		text-transform: uppercase;
 		color: var(--steel);
 	}
 
 	nav {
 		display: flex;
-		gap: 1.5rem;
+		gap: 8px;
+		align-items: center;
+		flex-wrap: wrap;
 	}
 
 	nav a {
+		font-weight: 700;
+		font-size: 13px;
 		text-decoration: none;
-		font-weight: 500;
-		font-size: 0.95rem;
-		padding-bottom: 0.15rem;
-		border-bottom: 2px solid transparent;
+		color: var(--ink);
+		padding: 8px 16px;
+		border-radius: 20px;
+		transition: background 0.15s;
 	}
 
-	nav a:hover,
-	nav a[aria-current='page'] {
-		border-bottom-color: var(--needle);
+	nav a:hover {
+		background: var(--paper);
+	}
+
+	nav a.active {
+		color: #fff;
+		background: var(--block);
+	}
+
+	#theme-toggle {
+		font-family: var(--font-mono);
+		font-weight: 600;
+		font-size: 11px;
+		background: var(--surface);
+		border: 1.5px solid var(--rule);
+		color: var(--ink);
+		padding: 7px 14px;
+		border-radius: 20px;
+		cursor: pointer;
+		transition: border-color 0.15s, color 0.15s;
+	}
+
+	#theme-toggle:hover {
+		border-color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.site-footer {
-		max-width: 68rem;
-		margin: 0 auto;
-		padding: 0 1.5rem 2.5rem;
+		padding: 32px;
+		background: var(--block);
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
 	}
 
-	.footer-inner {
+	.footer-top {
 		display: flex;
 		justify-content: space-between;
-		gap: 2rem;
 		flex-wrap: wrap;
-		font-size: 0.95rem;
+		gap: 16px;
+	}
+
+	.footer-id {
+		margin: 0;
+		font-size: 12px;
+		color: #fff;
+		opacity: 0.85;
+	}
+
+	.footer-id a {
+		color: #fff;
+	}
+
+	.footer-coord {
+		font-family: var(--font-mono);
+		font-size: 10.5px;
+		letter-spacing: 0.08em;
+		color: var(--accent2);
+	}
+
+	.footer-bottom {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 12px;
+		padding-top: 18px;
+		border-top: 1px solid rgba(255, 255, 255, 0.15);
+	}
+
+	.footer-follow {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
 		color: var(--steel);
+	}
+
+	.footer-social {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	.footer-social a {
+		font-size: 12px;
+		font-weight: 600;
+		color: #fff;
+		border: 1.5px solid var(--accent2);
+		border-radius: 20px;
+		padding: 6px 14px;
+		text-decoration: none;
+		transition: background 0.15s, color 0.15s;
+	}
+
+	.footer-social a:hover {
+		background: var(--accent2);
+		color: var(--block);
 	}
 </style>

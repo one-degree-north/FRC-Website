@@ -3,52 +3,22 @@ import Layout from '../layouts/Layout.astro';
 import site from '../data/site.json';
 
 const storyParagraphs = site.aboutStory.split('\n\n');
-
-const values = [
-	{
-		name: 'Communication',
-		detail: 'Design reviews, match strategy, sponsor pitches — we practice saying it clearly.',
-	},
-	{
-		name: 'Collaboration',
-		detail: 'Five subteams ship one robot. Nothing works unless it works together.',
-	},
-	{
-		name: 'Innovation',
-		detail: 'Every season is a new game with no known answers. We prototype early and often.',
-	},
-	{
-		name: 'Sportsmanship',
-		detail: 'Gracious professionalism on and off the field, win or lose.',
-	},
-];
-
-const milestones = [
-	{ year: '2013', event: 'Founded at Singapore American School — Southeast Asia’s first FRC team.' },
-	{ year: '2019', event: 'Regional Engineering Inspiration Award and our first trip to the FIRST Championship in Detroit.' },
-	{ year: '2024', event: 'Woodie Flowers Finalist Award at the Southern Cross Regional.' },
-	{ year: '2025', event: 'Regional Winners at the Hawaii Regional.' },
-];
 ---
 
 <Layout title="About" description="Get to know One Degree North, FRC Team 4817.">
-	<section class="page-head">
+	<section class="page-head intro-card">
+		<span class="fig-label" aria-hidden="true">Fig. 02 / About</span>
 		<p class="eyebrow">Get to know us</p>
 		<h1>A team of ~30 students, one degree north of the equator</h1>
+		{storyParagraphs.map((paragraph) => <p class="story">{paragraph}</p>)}
 	</section>
 
-	<section class="story">
-		{storyParagraphs.map((paragraph) => <p>{paragraph}</p>)}
-	</section>
-
-	<div class="latitude-line" aria-hidden="true"><span>1.3521° N</span></div>
-
-	<section>
+	<section class="values-block">
 		<h2>What we stand on</h2>
 		<dl class="values">
 			{
-				values.map((value) => (
-					<div>
+				site.values.map((value) => (
+					<div class="value-tile">
 						<dt>{value.name}</dt>
 						<dd>{value.detail}</dd>
 					</div>
@@ -57,21 +27,20 @@ const milestones = [
 		</dl>
 	</section>
 
-	<div class="latitude-line" aria-hidden="true"><span>1.3521° N</span></div>
-
-	<section>
+	<section class="milestones-card">
 		<h2>Milestones</h2>
-		<ol class="milestones">
+		<ol class="timeline">
 			{
-				milestones.map((milestone) => (
+				site.milestones.map((milestone) => (
 					<li>
-						<span class="milestone-year">{milestone.year}</span>
-						<span>{milestone.event}</span>
+						<span class="dot" aria-hidden="true" />
+						<span class="year">{milestone.year}</span>
+						<span class="event">{milestone.event}</span>
 					</li>
 				))
 			}
 		</ol>
-		<p>
+		<p class="timeline-note">
 			Full season-by-season results are on
 			<a href="https://frc-events.firstinspires.org/team/4817">FIRST Inspires</a>.
 		</p>
@@ -79,28 +48,53 @@ const milestones = [
 </Layout>
 
 <style>
-	.page-head {
-		padding-top: 3rem;
+	.intro-card {
+		position: relative;
+		padding: 24px;
+		border: 1.5px solid var(--rule);
+		border-radius: 18px;
+		margin-top: 32px;
+		margin-bottom: 12px;
 	}
 
-	.page-head h1 {
-		font-size: clamp(2rem, 5vw, 3.2rem);
-		font-weight: 800;
-		max-width: 30ch;
+	.intro-card .fig-label {
+		display: block;
+		margin-bottom: 8px;
 	}
 
-	.story p {
-		max-width: 42rem;
-		font-size: 1.1rem;
+	.intro-card h1 {
+		font-size: clamp(26px, 5vw, 34px);
+		font-weight: 700;
+		max-width: 26ch;
+		margin: 0 0 20px;
+		line-height: 1.15;
+	}
+
+	.story {
+		max-width: 40rem;
+		font-size: 15px;
+		opacity: 0.85;
+	}
+
+	.values-block {
+		margin-bottom: 36px;
+		padding: 24px;
+		background: var(--block);
+		border-radius: 18px;
+	}
+
+	.values-block h2 {
+		font-size: 20px;
+		font-weight: 700;
+		color: #fff;
+		margin: 0 0 14px;
 	}
 
 	.values {
 		display: grid;
-		/* Two columns so the four values sit in a balanced 2×2. */
-		grid-template-columns: repeat(2, 1fr);
-		gap: 1.5rem 2.5rem;
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
 		margin: 0;
-		max-width: 42rem;
 	}
 
 	@media (max-width: 40rem) {
@@ -109,33 +103,88 @@ const milestones = [
 		}
 	}
 
-	.values dt {
+	.value-tile {
+		background: var(--accent);
+		border-radius: 14px;
+		padding: 16px;
+	}
+
+	.value-tile dt {
 		font-weight: 700;
-		font-size: 1.05rem;
+		font-size: 14px;
+		color: #fff;
 	}
 
-	.values dd {
-		margin: 0.3rem 0 0;
-		color: var(--steel);
+	.value-tile dd {
+		font-size: 13px;
+		color: #fff;
+		opacity: 0.85;
+		margin: 4px 0 0;
 	}
 
-	.milestones {
+	.milestones-card {
+		margin-bottom: 48px;
+		padding: 24px;
+		border: 1.5px solid var(--rule);
+		border-radius: 18px;
+	}
+
+	.milestones-card h2 {
+		font-size: 20px;
+		font-weight: 700;
+		margin: 0 0 18px;
+	}
+
+	.timeline {
 		list-style: none;
-		padding: 0;
-		max-width: 42rem;
+		margin: 0;
+		position: relative;
+		padding-left: 24px;
+		border-left: 2px solid var(--rule);
 	}
 
-	.milestones li {
-		display: flex;
-		gap: 1.25rem;
-		padding: 0.9rem 0;
-		border-bottom: 1px solid var(--rule);
+	.timeline li {
+		position: relative;
+		padding-bottom: 26px;
 	}
 
-	.milestone-year {
+	.timeline li:last-child {
+		padding-bottom: 0;
+	}
+
+	.dot {
+		position: absolute;
+		left: -31px;
+		top: 2px;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: var(--accent);
+		border: 2px solid var(--surface);
+	}
+
+	.year {
+		display: block;
 		font-family: var(--font-mono);
-		font-weight: 500;
-		color: var(--needle);
-		flex: 0 0 3.5rem;
+		font-weight: 700;
+		color: var(--accent-text);
+		font-size: 13px;
+		margin-bottom: 3px;
+	}
+
+	.event {
+		font-size: 14px;
+		opacity: 0.85;
+	}
+
+	.timeline-note {
+		max-width: 40rem;
+		font-size: 13px;
+		color: var(--steel);
+		margin: 20px 0 0;
+	}
+
+	.timeline-note a {
+		color: var(--accent-text);
 	}
 </style>

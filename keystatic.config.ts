@@ -60,6 +60,36 @@ export default config({
 					multiline: true,
 				}),
 				contactEmail: fields.text({ label: 'Contact email' }),
+				values: fields.array(
+					fields.object({
+						name: fields.text({ label: 'Value' }),
+						detail: fields.text({ label: 'One-line detail' }),
+					}),
+					{
+						label: 'About page: team values',
+						itemLabel: (props) => props.fields.name.value,
+					},
+				),
+				milestones: fields.array(
+					fields.object({
+						year: fields.text({ label: 'Year' }),
+						event: fields.text({ label: 'What happened' }),
+					}),
+					{
+						label: 'About page: milestones',
+						itemLabel: (props) => props.fields.year.value,
+					},
+				),
+				outreachPrograms: fields.array(
+					fields.object({
+						title: fields.text({ label: 'Program name' }),
+						body: fields.text({ label: 'Description' }),
+					}),
+					{
+						label: 'Outreach page: programs',
+						itemLabel: (props) => props.fields.title.value,
+					},
+				),
 			},
 		}),
 	},

@@ -19,11 +19,10 @@ const images = Object.values(
 			))}
 		</div>
 	) : (
+		// Maintainers: drop .jpg/.png/.webp files into src/assets/gallery/ and
+		// they appear here automatically, replacing this placeholder.
 		<div class="gallery-empty">
-			<p>
-				<strong>Photos go here.</strong> Drop image files into
-				<code>src/assets/gallery/</code> and they'll appear automatically.
-			</p>
+			<p>Team photos coming soon.</p>
 		</div>
 	)
 }

@@ -10,6 +10,12 @@ interface Props {
 }
 
 const { title, description = site.tagline } = Astro.props;
+
+const pageTitle = `${title} · One Degree North · FRC 4817`;
+// Astro.site is set in astro.config.mjs; fall back gracefully for dev/preview.
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+const ogImage = new URL('/og.png', Astro.site ?? Astro.url);
+
 const nav = [
 	{ label: 'Home', href: '/' },
 	{ label: 'About', href: '/about/' },
@@ -24,8 +30,22 @@ const currentPath = Astro.url.pathname;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="canonical" href={canonical} />
 		<meta name="description" content={description} />
-		<title>{title} · One Degree North · FRC 4817</title>
+		<title>{pageTitle}</title>
+
+		<meta property="og:site_name" content="One Degree North — FRC 4817" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={pageTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+
 		<script is:inline>
 			// Apply the saved theme before first paint to avoid a flash.
 			try {
@@ -73,8 +93,8 @@ const currentPath = Astro.url.pathname;
 				<div class="footer-bottom">
 					<span class="footer-follow">Follow the team</span>
 					<div class="footer-social">
-						<a href="#">Instagram</a>
-						<a href="#">YouTube</a>
+						{/* Add socials with real URLs when ready, e.g.
+						    <a href="https://instagram.com/...">Instagram</a> */}
 						<a href="https://frc-events.firstinspires.org/team/4817">FIRST Inspires</a>
 					</div>
 				</div>

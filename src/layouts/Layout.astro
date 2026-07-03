@@ -1,0 +1,273 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import site from '../data/site.json';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = site.tagline } = Astro.props;
+const nav = [
+	{ label: 'Home', href: '/' },
+	{ label: 'About', href: '/about/' },
+	{ label: 'Outreach', href: '/outreach/' },
+	{ label: 'Lessons', href: '/lessons/' },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<title>{title} · One Degree North · FRC 4817</title>
+	</head>
+	<body>
+		<header class="site-header">
+			<a class="wordmark" href="/">
+				<span class="wordmark-degree">1°N</span>
+				<span class="wordmark-text">One Degree North<small>FRC Team 4817</small></span>
+			</a>
+			<nav aria-label="Main">
+				{
+					nav.map((item) => (
+						<a
+							href={item.href}
+							aria-current={currentPath === item.href ? 'page' : undefined}
+						>
+							{item.label}
+						</a>
+					))
+				}
+			</nav>
+		</header>
+
+		<main>
+			<slot />
+		</main>
+
+		<footer class="site-footer">
+			<div class="latitude-line" aria-hidden="true">
+				<span>1.3521° N</span>
+			</div>
+			<div class="footer-inner">
+				<p>
+					<strong>One Degree North</strong> — FRC Team 4817<br />
+					Singapore American School
+				</p>
+				<p>
+					<a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a><br />
+					<a href="https://frc-events.firstinspires.org/team/4817">
+						Our record on FIRST Inspires
+					</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--ink: #101b2d;
+		--paper: #f7f8f6;
+		--steel: #33506d;
+		--brass: #b97f2e;
+		--needle: #c6402e;
+		--surface: #ffffff;
+		--rule: #d5d9d3;
+		--font-display: 'Archivo Variable', system-ui, sans-serif;
+		--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--ink: #edf0ea;
+			--paper: #0e1624;
+			--steel: #9db4cc;
+			--brass: #d9a049;
+			--needle: #e0604c;
+			--surface: #16202f;
+			--rule: #2a3648;
+		}
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		margin: 0;
+		background: var(--paper);
+		color: var(--ink);
+		font-family: var(--font-display);
+		font-size: 1.0625rem;
+		line-height: 1.65;
+	}
+
+	main {
+		max-width: 68rem;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+
+	h1,
+	h2,
+	h3 {
+		line-height: 1.15;
+		text-wrap: balance;
+	}
+
+	a {
+		color: inherit;
+	}
+
+	/* Recurring signature: a latitude line labelled with Singapore's coordinate. */
+	.latitude-line {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 3.5rem 0 2.5rem;
+	}
+
+	.latitude-line::before,
+	.latitude-line::after {
+		content: '';
+		flex: 1;
+		border-top: 1px solid var(--rule);
+	}
+
+	.latitude-line::before {
+		flex: 0 0 2.5rem;
+	}
+
+	.latitude-line span {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.08em;
+		color: var(--steel);
+	}
+
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--needle);
+	}
+
+	.button {
+		display: inline-block;
+		padding: 0.65rem 1.4rem;
+		border: 1.5px solid var(--ink);
+		border-radius: 2rem;
+		font-weight: 600;
+		text-decoration: none;
+		transition: background 0.15s, color 0.15s;
+	}
+
+	.button:hover,
+	.button:focus-visible {
+		background: var(--ink);
+		color: var(--paper);
+	}
+
+	.button.primary {
+		background: var(--needle);
+		border-color: var(--needle);
+		color: #fff;
+	}
+
+	.button.primary:hover,
+	.button.primary:focus-visible {
+		background: var(--ink);
+		border-color: var(--ink);
+		color: var(--paper);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--needle);
+		outline-offset: 2px;
+	}
+</style>
+
+<style>
+	.site-header {
+		max-width: 68rem;
+		margin: 0 auto;
+		padding: 1.25rem 1.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.wordmark {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+		text-decoration: none;
+	}
+
+	.wordmark-degree {
+		font-family: var(--font-mono);
+		font-weight: 500;
+		font-size: 1.05rem;
+		color: var(--paper);
+		background: var(--needle);
+		padding: 0.3rem 0.5rem;
+		border-radius: 0.35rem;
+	}
+
+	.wordmark-text {
+		font-weight: 700;
+		letter-spacing: 0.01em;
+	}
+
+	.wordmark-text small {
+		display: block;
+		font-family: var(--font-mono);
+		font-weight: 400;
+		font-size: 0.7rem;
+		letter-spacing: 0.1em;
+		color: var(--steel);
+	}
+
+	nav {
+		display: flex;
+		gap: 1.5rem;
+	}
+
+	nav a {
+		text-decoration: none;
+		font-weight: 500;
+		font-size: 0.95rem;
+		padding-bottom: 0.15rem;
+		border-bottom: 2px solid transparent;
+	}
+
+	nav a:hover,
+	nav a[aria-current='page'] {
+		border-bottom-color: var(--needle);
+	}
+
+	.site-footer {
+		max-width: 68rem;
+		margin: 0 auto;
+		padding: 0 1.5rem 2.5rem;
+	}
+
+	.footer-inner {
+		display: flex;
+		justify-content: space-between;
+		gap: 2rem;
+		flex-wrap: wrap;
+		font-size: 0.95rem;
+		color: var(--steel);
+	}
+</style>

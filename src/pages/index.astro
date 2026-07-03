@@ -1,0 +1,178 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
+import site from '../data/site.json';
+
+const subteams = [
+	{ name: 'Programming', href: '/lessons/programming/01-intro/' },
+	{ name: 'Mechanical', href: '/lessons/mechanical/01-intro/' },
+	{ name: 'Electrical', href: '/lessons/electrical/01-intro/' },
+	{ name: 'CAD', href: '/lessons/cad/01-intro/' },
+	{ name: 'Business', href: '/lessons/business/01-intro/' },
+];
+
+const record = [
+	{ value: '2013', label: 'rookie year' },
+	{ value: '14', label: 'seasons' },
+	{ value: '22', label: 'events' },
+	{ value: '7', label: 'awards' },
+];
+---
+
+<Layout title="Home">
+	<section class="hero">
+		<p class="eyebrow">FRC Team 4817 · Singapore</p>
+		<h1>
+			One Degree<br />
+			<span class="hero-north">North<span class="hero-needle">▲</span></span>
+		</h1>
+		<p class="hero-tagline">{site.tagline}</p>
+		<p class="hero-intro">{site.homeIntro}</p>
+		<div class="hero-actions">
+			<a class="button primary" href="/about/">Get to know us</a>
+			<a class="button" href="/lessons/">Browse our lessons</a>
+		</div>
+	</section>
+
+	<div class="latitude-line" aria-hidden="true"><span>1.3521° N</span></div>
+
+	<section aria-label="Team record">
+		<dl class="record">
+			{
+				record.map((stat) => (
+					<div>
+						<dt>{stat.label}</dt>
+						<dd>{stat.value}</dd>
+					</div>
+				))
+			}
+			<div class="record-highlight">
+				<dt>latest</dt>
+				<dd>2025 Hawaii Regional Winners</dd>
+			</div>
+		</dl>
+	</section>
+
+	<div class="latitude-line" aria-hidden="true"><span>1.3521° N</span></div>
+
+	<section>
+		<h2>Five subteams, one robot</h2>
+		<p>
+			Every member joins a subteam, and every subteam trains its next
+			generation with its own lesson modules.
+		</p>
+		<ul class="subteam-list">
+			{
+				subteams.map((subteam) => (
+					<li>
+						<a href={subteam.href}>{subteam.name}</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<div class="latitude-line" aria-hidden="true"><span>1.3521° N</span></div>
+
+	<section>
+		<h2>Life on the team</h2>
+		<PhotoGallery />
+	</section>
+</Layout>
+
+<style>
+	.hero {
+		padding-top: 4rem;
+	}
+
+	.hero h1 {
+		font-size: clamp(3rem, 10vw, 6.5rem);
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		text-transform: uppercase;
+		margin: 0.5rem 0 1rem;
+	}
+
+	.hero-north {
+		color: var(--steel);
+	}
+
+	.hero-needle {
+		color: var(--needle);
+		font-size: 0.35em;
+		vertical-align: 0.9em;
+		margin-left: 0.3em;
+	}
+
+	.hero-tagline {
+		font-family: var(--font-mono);
+		font-size: 1rem;
+		letter-spacing: 0.06em;
+		color: var(--brass);
+		margin: 0;
+	}
+
+	.hero-intro {
+		max-width: 38rem;
+		font-size: 1.15rem;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: 0.9rem;
+		flex-wrap: wrap;
+		margin-top: 1.8rem;
+	}
+
+	.record {
+		display: flex;
+		gap: 2.5rem;
+		flex-wrap: wrap;
+		margin: 0;
+	}
+
+	.record dt {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--steel);
+	}
+
+	.record dd {
+		margin: 0.15rem 0 0;
+		font-size: 1.9rem;
+		font-weight: 700;
+	}
+
+	.record-highlight dd {
+		font-size: 1.15rem;
+		line-height: 1.3;
+		max-width: 12rem;
+		padding-top: 0.55rem;
+		color: var(--needle);
+	}
+
+	.subteam-list {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.subteam-list a {
+		display: inline-block;
+		padding: 0.5rem 1.1rem;
+		border: 1.5px solid var(--rule);
+		border-radius: 2rem;
+		background: var(--surface);
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	.subteam-list a:hover,
+	.subteam-list a:focus-visible {
+		border-color: var(--needle);
+	}
+</style>

@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Placeholder content — the team will replace this with real outreach writing.
+const placeholders = [
+	{
+		title: 'Lorem ipsum dolor',
+		body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.',
+	},
+	{
+		title: 'Consectetur adipiscing',
+		body: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.',
+	},
+	{
+		title: 'Sed ut perspiciatis',
+		body: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.',
+	},
+];
+---
+
+<Layout title="Outreach" description="Community and outreach programs of FRC Team 4817.">
+	<section class="page-head">
+		<p class="eyebrow">Beyond the build season</p>
+		<h1>Outreach</h1>
+		<p class="note">
+			This page is a placeholder — replace the text below with the team's
+			real outreach programs (edit <code>src/pages/outreach.astro</code>).
+		</p>
+	</section>
+
+	<section class="programs">
+		{
+			placeholders.map((program) => (
+				<article>
+					<h2>{program.title}</h2>
+					<p>{program.body}</p>
+				</article>
+			))
+		}
+	</section>
+</Layout>
+
+<style>
+	.page-head {
+		padding-top: 3rem;
+	}
+
+	.page-head h1 {
+		font-size: clamp(2rem, 5vw, 3.2rem);
+		font-weight: 800;
+	}
+
+	.note {
+		max-width: 42rem;
+		padding: 0.8rem 1.1rem;
+		border: 1.5px dashed var(--rule);
+		border-radius: 0.5rem;
+		color: var(--steel);
+	}
+
+	.note code {
+		font-family: var(--font-mono);
+		font-size: 0.85em;
+	}
+
+	.programs {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+		gap: 2rem;
+		margin: 2.5rem 0 3rem;
+	}
+
+	.programs h2 {
+		font-size: 1.2rem;
+	}
+
+	.programs p {
+		color: var(--steel);
+	}
+</style>

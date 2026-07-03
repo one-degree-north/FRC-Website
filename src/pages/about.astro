@@ -1,0 +1,133 @@
+---
+import Layout from '../layouts/Layout.astro';
+import site from '../data/site.json';
+
+const storyParagraphs = site.aboutStory.split('\n\n');
+
+const values = [
+	{
+		name: 'Communication',
+		detail: 'Design reviews, match strategy, sponsor pitches — we practice saying it clearly.',
+	},
+	{
+		name: 'Collaboration',
+		detail: 'Five subteams ship one robot. Nothing works unless it works together.',
+	},
+	{
+		name: 'Innovation',
+		detail: 'Every season is a new game with no known answers. We prototype early and often.',
+	},
+	{
+		name: 'Sportsmanship',
+		detail: 'Gracious professionalism on and off the field, win or lose.',
+	},
+];
+
+const milestones = [
+	{ year: '2013', event: 'Founded at Singapore American School — Southeast Asia’s first FRC team.' },
+	{ year: '2019', event: 'Regional Engineering Inspiration Award and our first trip to the FIRST Championship in Detroit.' },
+	{ year: '2024', event: 'Woodie Flowers Finalist Award at the Southern Cross Regional.' },
+	{ year: '2025', event: 'Regional Winners at the Hawaii Regional.' },
+];
+---
+
+<Layout title="About" description="Get to know One Degree North, FRC Team 4817.">
+	<section class="page-head">
+		<p class="eyebrow">Get to know us</p>
+		<h1>A team of ~30 students, one degree north of the equator</h1>
+	</section>
+
+	<section class="story">
+		{storyParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+	</section>
+
+	<div class="latitude-line" aria-hidden="true"><span>1.3521° N</span></div>
+
+	<section>
+		<h2>What we stand on</h2>
+		<dl class="values">
+			{
+				values.map((value) => (
+					<div>
+						<dt>{value.name}</dt>
+						<dd>{value.detail}</dd>
+					</div>
+				))
+			}
+		</dl>
+	</section>
+
+	<div class="latitude-line" aria-hidden="true"><span>1.3521° N</span></div>
+
+	<section>
+		<h2>Milestones</h2>
+		<ol class="milestones">
+			{
+				milestones.map((milestone) => (
+					<li>
+						<span class="milestone-year">{milestone.year}</span>
+						<span>{milestone.event}</span>
+					</li>
+				))
+			}
+		</ol>
+		<p>
+			Full season-by-season results are on
+			<a href="https://frc-events.firstinspires.org/team/4817">FIRST Inspires</a>.
+		</p>
+	</section>
+</Layout>
+
+<style>
+	.page-head {
+		padding-top: 3rem;
+	}
+
+	.page-head h1 {
+		font-size: clamp(2rem, 5vw, 3.2rem);
+		font-weight: 800;
+		max-width: 30ch;
+	}
+
+	.story p {
+		max-width: 42rem;
+		font-size: 1.1rem;
+	}
+
+	.values {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+		gap: 1.5rem 2.5rem;
+		margin: 0;
+	}
+
+	.values dt {
+		font-weight: 700;
+		font-size: 1.05rem;
+	}
+
+	.values dd {
+		margin: 0.3rem 0 0;
+		color: var(--steel);
+	}
+
+	.milestones {
+		list-style: none;
+		padding: 0;
+		max-width: 42rem;
+	}
+
+	.milestones li {
+		display: flex;
+		gap: 1.25rem;
+		padding: 0.9rem 0;
+		border-bottom: 1px solid var(--rule);
+	}
+
+	.milestone-year {
+		font-family: var(--font-mono);
+		font-weight: 500;
+		color: var(--needle);
+		flex: 0 0 3.5rem;
+	}
+</style>

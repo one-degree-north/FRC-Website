@@ -21,6 +21,7 @@ const record = [
 
 <Layout title="Home">
 	<section class="hero">
+		<span class="hero-coord" aria-hidden="true">1.3521° N&ensp;/&ensp;103.8198° E</span>
 		<p class="eyebrow">FRC Team 4817 · Singapore</p>
 		<h1>
 			One Degree<br />
@@ -82,7 +83,28 @@ const record = [
 
 <style>
 	.hero {
+		position: relative;
 		padding-top: 4rem;
+	}
+
+	/* The team's actual coordinates, set quietly in the hero's empty right side. */
+	.hero-coord {
+		position: absolute;
+		top: 4.5rem;
+		right: 0;
+		writing-mode: vertical-rl;
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.35em;
+		color: var(--steel);
+		opacity: 0.45;
+		user-select: none;
+	}
+
+	@media (max-width: 60rem) {
+		.hero-coord {
+			display: none;
+		}
 	}
 
 	.hero h1 {

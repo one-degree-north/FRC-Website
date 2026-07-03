@@ -51,6 +51,10 @@ const currentPath = Astro.url.pathname;
 			<slot />
 		</main>
 
+		<script>
+			import '../scripts/scroll-animations.js';
+		</script>
+
 		<footer class="site-footer">
 			<div class="latitude-line" aria-hidden="true">
 				<span>1.3521° N</span>
@@ -76,7 +80,7 @@ const currentPath = Astro.url.pathname;
 		--ink: #101b2d;
 		--paper: #f7f8f6;
 		--steel: #33506d;
-		--brass: #b97f2e;
+		--brass: #96621c;
 		--needle: #c6402e;
 		--surface: #ffffff;
 		--rule: #d5d9d3;
@@ -126,8 +130,11 @@ const currentPath = Astro.url.pathname;
 		color: inherit;
 	}
 
-	/* Recurring signature: a latitude line labelled with Singapore's coordinate. */
+	/* Recurring signature: a latitude line labelled with Singapore's coordinate.
+	   --line-scale must be declared here (not just as a var() fallback) so
+	   GSAP can read and animate it. */
 	.latitude-line {
+		--line-scale: 1;
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
@@ -139,10 +146,17 @@ const currentPath = Astro.url.pathname;
 		content: '';
 		flex: 1;
 		border-top: 1px solid var(--rule);
+		/* --line-scale is animated by scroll-animations.js to "draw" the line. */
+		transform: scaleX(var(--line-scale, 1));
 	}
 
 	.latitude-line::before {
 		flex: 0 0 2.5rem;
+		transform-origin: right;
+	}
+
+	.latitude-line::after {
+		transform-origin: left;
 	}
 
 	.latitude-line span {

@@ -70,6 +70,27 @@ Docs: https://keystatic.com/docs/github-mode
   (open the file in `src/content/docs/lessons/`, click the pencil). The
   CMS is a convenience, not a dependency.
 
+## Known constraints (read before upgrading anything)
+
+- **`overrides.vite: "^7"` in package.json** exists because Astro 6 bundles
+  Vite 7 while `@astrojs/react` wants Vite 8 — without the pin the dev
+  server breaks with cryptic `Missing field 'moduleType'` errors. When you
+  eventually upgrade past Astro 6, **remove this override** or it will
+  cause the opposite breakage.
+- **Astro is held at v6 because of Keystatic.** `@keystatic/astro` declares
+  which Astro majors it supports; before any Astro major upgrade, check
+  `npm view @keystatic/astro peerDependencies.astro` and only upgrade to a
+  version it lists.
+- **Node is pinned to 22.x** (`engines` in package.json; Vercel honors it).
+  Bump it deliberately about once a year — check Vercel's supported
+  versions first — rather than letting the platform default drift.
+- **Two theme toggles by design**: the marketing pages' Light/Dark button
+  and the lessons' (Starlight's) theme picker remember their settings
+  independently. Not a bug.
+- **Where build failures show up**: the GitHub Actions "build" check on
+  each commit (red ✗ = that commit broke the build; the live site keeps
+  serving the last good deploy), and the Vercel dashboard → Deployments.
+
 ## Dependency updates
 
 Once per year (off-season), on a branch:

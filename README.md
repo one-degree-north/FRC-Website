@@ -43,6 +43,8 @@ matching collection in `keystatic.config.ts` (copy an existing
 `lessonCollection(...)` line).
 
 **Add photos** — drop `.jpg`/`.png`/`.webp` files into `src/assets/gallery/`.
+iPhone photos are often `.heic`, which won't show up — convert them first
+(on Windows/Mac, opening the photo and re-saving/exporting as JPEG works).
 
 **Change team text** — edit `src/data/site.json` (or use the CMS "Team
 info" form).

@@ -1,0 +1,22 @@
+# Builds the site on every push/PR so content mistakes show up as a red ✗
+# on the commit in GitHub instead of only in the Vercel dashboard.
+# If this fails, the live site is NOT affected — Vercel keeps serving the
+# last good deploy. Open the failed run to see which file broke the build.
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: npm
+      - run: npm ci
+      - run: npm run build

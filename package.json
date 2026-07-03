@@ -29,5 +29,8 @@
   },
   "overrides": {
     "vite": "^7"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }

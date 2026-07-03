@@ -1,15 +1,36 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
-import site from '../data/site.json';
+import { site } from '../data/site';
 
-const subteams = [
-	{ name: 'Programming', href: '/lessons/programming/01-intro/' },
-	{ name: 'Mechanical', href: '/lessons/mechanical/01-intro/' },
-	{ name: 'Electrical', href: '/lessons/electrical/01-intro/' },
-	{ name: 'CAD', href: '/lessons/cad/01-intro/' },
-	{ name: 'Business', href: '/lessons/business/01-intro/' },
-];
+// Build the subteam pills from the lesson folders that actually exist, each
+// linking to that subteam's first lesson (lowest slug — hence the 01-/02-
+// naming convention). A renamed or deleted lesson can never leave a dead
+// link here, and a new subteam folder gets a pill automatically.
+const lessons = await getCollection('docs', (entry) =>
+	entry.id.startsWith('lessons/'),
+);
+const firstLessonBySubteam = new Map<string, string>();
+for (const lesson of lessons) {
+	const [, subteam, ...rest] = lesson.id.split('/');
+	if (!subteam || rest.length === 0) continue; // skip the lessons/ welcome page
+	const current = firstLessonBySubteam.get(subteam);
+	if (!current || lesson.id < current) firstLessonBySubteam.set(subteam, lesson.id);
+}
+
+const preferredOrder = ['programming', 'mechanical', 'electrical', 'cad', 'business'];
+const labels: Record<string, string> = { cad: 'CAD' };
+const subteams = [...firstLessonBySubteam.keys()]
+	.sort(
+		(a, b) =>
+			(preferredOrder.indexOf(a) + 1 || 99) - (preferredOrder.indexOf(b) + 1 || 99) ||
+			a.localeCompare(b),
+	)
+	.map((folder) => ({
+		name: labels[folder] ?? folder.charAt(0).toUpperCase() + folder.slice(1),
+		href: `/${firstLessonBySubteam.get(folder)}/`,
+	}));
 
 const record = [
 	{ value: '2013', label: 'rookie year' },

@@ -19,7 +19,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
-.vercel
+.netlify
 
 # Not part of the website — AI-assistant instructions & design working files
 CLAUDE.md

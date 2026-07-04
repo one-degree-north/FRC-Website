@@ -17,7 +17,7 @@ npm run dev
 - Site: http://localhost:4321
 - Content editor (CMS): http://localhost:4321/keystatic
 
-`npm run build` does a full production build (this is what Vercel runs on
+`npm run build` does a full production build (this is what Netlify runs on
 every deploy).
 
 ## How the site is organized
@@ -53,5 +53,5 @@ info" form).
 
 [Astro](https://astro.build) + [Starlight](https://starlight.astro.build)
 (lessons UI) + [Keystatic](https://keystatic.com) (browser CMS), deployed on
-Vercel. All content is plain Markdown/JSON in this repo — no database, no
+Netlify. All content is plain Markdown/JSON in this repo — no database, no
 server to maintain.

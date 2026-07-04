@@ -1,6 +1,6 @@
 # Builds the site on every push/PR so content mistakes show up as a red ✗
-# on the commit in GitHub instead of only in the Vercel dashboard.
-# If this fails, the live site is NOT affected — Vercel keeps serving the
+# on the commit in GitHub instead of only in the Netlify dashboard.
+# If this fails, the live site is NOT affected — Netlify keeps serving the
 # last good deploy. Open the failed run to see which file broke the build.
 name: build
 

@@ -20,7 +20,7 @@ Everything must be owned by **team accounts**, never personal ones:
 | What | Where | Who controls it |
 | --- | --- | --- |
 | Code + content | GitHub repo under the team's GitHub **organization** | Org owners (update yearly: current student maintainer + a mentor) |
-| Hosting | Netlify account created with the **team email** | Whoever holds the team email |
+| Hosting | Vercel account created with the **team email** | Whoever holds the team email |
 | CMS access | Keystatic GitHub App (installed on the org) | GitHub org owners |
 
 Every year, before seniors graduate: add the next maintainer to the GitHub
@@ -28,14 +28,14 @@ org, and make sure a mentor still has the team email credentials.
 
 ## Deployment (one-time setup)
 
-The site auto-deploys: push to `main` → Netlify builds and publishes.
+The site auto-deploys: push to `main` → Vercel builds and publishes.
 Setting that up the first time:
 
 1. Create the GitHub organization (e.g. `frc-team-4817`) and push this
    repo to it.
-2. Create a Netlify account **with the team email**, choose "Add new site →
-   Import an existing project," and select the repo. Netlify detects Astro
-   and reads `netlify.toml` — no settings needed.
+2. Create a Vercel account **with the team email**, choose "Import
+   project," and select the repo. Vercel detects Astro automatically — no
+   settings needed.
 3. Done. Every push to `main` deploys. Pull requests get preview URLs.
 
 ## CMS (Keystatic)
@@ -50,8 +50,8 @@ deployment):
    commented-out `github` line, filling in your org/repo.
 2. Deploy, then visit `<site-url>/keystatic` — Keystatic walks you through
    creating its GitHub App on the org. Follow the prompts.
-3. Copy the environment variables it gives you into Netlify (Site
-   configuration → Environment variables) and redeploy.
+3. Copy the environment variables it gives you into Vercel (Project →
+   Settings → Environment Variables) and redeploy.
 
 To give someone edit access: add their GitHub account to the org (or as a
 repo collaborator). To revoke: remove them.
@@ -60,10 +60,9 @@ Docs: https://keystatic.com/docs/github-mode
 
 ## When something breaks
 
-- **Site is down / weird**: check the Netlify dashboard → Deploys. You can
-  roll back to any previous working version with one click (open an older
-  successful deploy → "Publish deploy"). This fixes most emergencies
-  instantly.
+- **Site is down / weird**: check the Vercel dashboard → Deployments. You
+  can redeploy any previous working version with one click ("Promote to
+  production"). This fixes most emergencies instantly.
 - **Build fails after a content edit**: the deploy log names the file.
   Usually a malformed Markdown frontmatter block (the `---` section at the
   top of a lesson).
@@ -82,16 +81,15 @@ Docs: https://keystatic.com/docs/github-mode
   which Astro majors it supports; before any Astro major upgrade, check
   `npm view @keystatic/astro peerDependencies.astro` and only upgrade to a
   version it lists.
-- **Node is pinned to 22** (`NODE_VERSION` in `netlify.toml`, mirrored by
-  `engines` in package.json). Bump it deliberately about once a year —
-  check Netlify's supported versions first — rather than letting the
-  platform default drift.
+- **Node is pinned to 22.x** (`engines` in package.json; Vercel honors it).
+  Bump it deliberately about once a year — check Vercel's supported
+  versions first — rather than letting the platform default drift.
 - **Two theme toggles by design**: the marketing pages' Light/Dark button
   and the lessons' (Starlight's) theme picker remember their settings
   independently. Not a bug.
 - **Where build failures show up**: the GitHub Actions "build" check on
   each commit (red ✗ = that commit broke the build; the live site keeps
-  serving the last good deploy), and the Netlify dashboard → Deploys.
+  serving the last good deploy), and the Vercel dashboard → Deployments.
 
 ## Dependency updates
 

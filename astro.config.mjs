@@ -4,14 +4,14 @@ import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
 import keystatic from '@keystatic/astro';
 import sitemap from '@astrojs/sitemap';
-import netlify from '@astrojs/netlify';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-	// TODO: replace with the real Netlify subdomain after the first deploy,
+	// TODO: replace with the real Vercel subdomain after the first deploy,
 	// then redeploy so canonical URLs, the sitemap, and social previews resolve.
-	site: 'https://frc-website.netlify.app',
-	adapter: netlify(),
+	site: 'https://frc-website.vercel.app',
+	adapter: vercel(),
 	integrations: [
 		starlight({
 			title: 'One Degree North — Lessons',

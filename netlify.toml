@@ -1,9 +1,0 @@
-# Netlify build config. The @astrojs/netlify adapter wires up the SSR
-# functions (for the Keystatic /keystatic and /api/keystatic routes)
-# automatically; this file just pins the build command and Node version.
-[build]
-  command = "npm run build"
-  publish = "dist"
-
-[build.environment]
-  NODE_VERSION = "22"

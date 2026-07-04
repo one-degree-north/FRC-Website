@@ -1,27 +1,33 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import gallery from '../data/gallery.json';
 
-// Any image dropped into src/assets/gallery/ shows up here automatically.
-const images = Object.values(
-	import.meta.glob<{ default: ImageMetadata }>(
-		'../assets/gallery/*.{jpg,jpeg,png,webp}',
-		{ eager: true },
-	),
-).map((mod) => mod.default);
+// Photos are managed in the CMS ("Photo gallery" singleton), which saves the
+// image files into src/assets/gallery/ and records them in gallery.json. We
+// resolve each saved path to its optimized asset via import.meta.glob. The
+// glob is recursive so it works regardless of how the CMS lays out the files.
+const files = import.meta.glob<{ default: ImageMetadata }>(
+	'/src/assets/gallery/**/*.{jpg,jpeg,png,webp}',
+	{ eager: true },
+);
+
+const photos = gallery.photos
+	.map((photo) => ({ mod: files[photo.image], alt: photo.alt ?? '' }))
+	.filter((photo): photo is { mod: { default: ImageMetadata }; alt: string } =>
+		Boolean(photo.mod),
+	);
 ---
 
 {
-	images.length > 0 ? (
+	photos.length > 0 ? (
 		<div class="gallery">
-			{images.map((image) => (
-				<Image src={image} alt="One Degree North team photo" width={640} />
+			{photos.map(({ mod, alt }) => (
+				<Image src={mod.default} alt={alt} width={640} />
 			))}
 		</div>
 	) : (
-		// Maintainers: drop .jpg/.png/.webp files into src/assets/gallery/ and
-		// they appear here automatically, replacing this placeholder.
-		// iPhone .heic photos are NOT picked up — convert them to JPEG first.
+		// Photos are added through the CMS "Photo gallery" — see README.
 		<div class="gallery-empty">
 			<p>Team photos coming soon.</p>
 		</div>
@@ -51,9 +57,5 @@ const images = Object.values(
 		color: var(--steel);
 		font-family: var(--font-mono);
 		font-size: 12px;
-	}
-
-	.gallery-empty code {
-		font-size: 1em;
 	}
 </style>

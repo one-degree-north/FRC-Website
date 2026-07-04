@@ -101,5 +101,33 @@ export default config({
 				),
 			},
 		}),
+		gallery: singleton({
+			label: 'Photo gallery (home page)',
+			path: 'src/data/gallery',
+			format: { data: 'json' },
+			schema: {
+				photos: fields.array(
+					fields.object({
+						image: fields.image({
+							label: 'Photo',
+							// Stored under src/ so Astro optimizes it; the publicPath
+							// is chosen so the saved path matches the import.meta.glob
+							// key in PhotoGallery.astro.
+							directory: 'src/assets/gallery',
+							publicPath: '/src/assets/gallery/',
+							validation: { isRequired: true },
+						}),
+						alt: fields.text({
+							label: 'Description (for accessibility)',
+							description: 'Briefly describe the photo for screen readers.',
+						}),
+					}),
+					{
+						label: 'Photos',
+						itemLabel: (props) => props.fields.alt.value || 'Photo',
+					},
+				),
+			},
+		}),
 	},
 });

@@ -55,9 +55,11 @@ with a first lesson inside (the sidebar updates automatically), and add a
 matching collection in `keystatic.config.ts` (copy an existing
 `lessonCollection(...)` line).
 
-**Add photos** — drop `.jpg`/`.png`/`.webp` files into `src/assets/gallery/`.
-iPhone photos are often `.heic`, which won't show up — convert them first
-(on Windows/Mac, opening the photo and re-saving/exporting as JPEG works).
+**Add photos** — use the CMS **"Photo gallery"** (upload, describe, reorder,
+delete — no code needed). iPhone photos are often `.heic`, which the uploader
+rejects — convert to JPEG first (opening and re-exporting the photo works).
+Behind the scenes, uploads are saved to `src/assets/gallery/` and listed in
+`src/data/gallery.json`; `PhotoGallery.astro` renders them optimized.
 
 **Change team text** — edit `src/data/site.json` (or use the CMS "Team
 info" form).

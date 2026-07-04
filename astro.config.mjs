@@ -8,9 +8,9 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-	// TODO: replace with the real Vercel subdomain after the first deploy,
-	// then redeploy so canonical URLs, the sitemap, and social previews resolve.
-	site: 'https://frc-website.vercel.app',
+	// The live Vercel URL. If a custom domain is added later, update this
+	// (and public/robots.txt) to match, then redeploy.
+	site: 'https://frc-website-zeta.vercel.app',
 	adapter: vercel(),
 	integrations: [
 		starlight({

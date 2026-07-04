@@ -1,0 +1,17 @@
+{
+	"dbConnectionString": "postgres://localhost:61153/postgres",
+	"geolocation": {
+		"data": {
+			"city": "Singapore",
+			"country": {
+				"code": "SG",
+				"name": "Singapore"
+			},
+			"timezone": "Asia/Singapore",
+			"latitude": 1.3248,
+			"longitude": 103.8566,
+			"postalCode": "32"
+		},
+		"timestamp": 1783124256515
+	}
+}

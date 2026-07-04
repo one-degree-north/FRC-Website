@@ -3,4 +3,4 @@ Allow: /
 Disallow: /keystatic
 Disallow: /api/keystatic
 
-Sitemap: https://frc-website.vercel.app/sitemap-index.xml
+Sitemap: https://frc-website-zeta.vercel.app/sitemap-index.xml

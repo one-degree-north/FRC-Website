@@ -41,22 +41,46 @@ Setting that up the first time:
 ## CMS (Keystatic)
 
 Editors use a web form at `<site-url>/keystatic` — they never touch git.
+It's **live in GitHub mode**: editors sign in with GitHub, and saving writes
+a commit to this repo, which triggers a deploy.
 
-Right now `keystatic.config.ts` uses **local mode** (works only on a dev
-machine). To enable browser editing on the live site (one-time, after
-deployment):
+`keystatic.config.ts` uses `storage: { kind: 'github', repo:
+'one-degree-north/FRC-Website' }`. The connection relies on a **GitHub App**
+("One Degree North CMS", installed on the org) plus four environment
+variables set in Vercel (Settings → Environment Variables):
 
-1. In `keystatic.config.ts`, replace `storage: { kind: 'local' }` with the
-   commented-out `github` line, filling in your org/repo.
-2. Deploy, then visit `<site-url>/keystatic` — Keystatic walks you through
-   creating its GitHub App on the org. Follow the prompts.
-3. Copy the environment variables it gives you into Vercel (Project →
-   Settings → Environment Variables) and redeploy.
+- `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET` — from the
+  GitHub App.
+- `KEYSTATIC_SECRET` — a random key that encrypts editor login sessions.
+- `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` — the app's slug.
 
-To give someone edit access: add their GitHub account to the org (or as a
-repo collaborator). To revoke: remove them.
+If you ever rebuild this from scratch, Keystatic's setup wizard at
+`<site-url>/keystatic` can regenerate the app + variables; the manual path
+is at https://keystatic.com/docs/github-mode.
 
-Docs: https://keystatic.com/docs/github-mode
+### Who can edit (access control)
+
+**Editing = GitHub write access to this repo.** There is no separate
+password or editor list in Keystatic — it uses GitHub permissions:
+
+- Anyone with **write access** to `one-degree-north/FRC-Website` can sign in
+  at `/keystatic` and publish changes (their saves become commits to `main`).
+- The repo is **public**, so anyone can *view* it and technically open the
+  CMS, but without write access their edits go into a fork/pull request that
+  changes nothing on the live site until a maintainer merges it.
+
+To manage the editor list:
+
+1. Best practice: in the org, make a **Team** (e.g. "Website Editors") and
+   give it **Write** access to this repo (repo → Settings → Collaborators
+   and teams → Add team, role: Write). Add each editor to that team.
+2. Or add people one-off: repo → Settings → Collaborators and teams → Add
+   people, role **Write**.
+3. To revoke someone, remove them from the team/collaborators — access is
+   gone immediately.
+
+Org **owners** always have access. Give people the *least* access that lets
+them do their job (Write for editors; Admin only for maintainers).
 
 ## When something breaks
 
@@ -87,6 +111,12 @@ Docs: https://keystatic.com/docs/github-mode
 - **Two theme toggles by design**: the marketing pages' Light/Dark button
   and the lessons' (Starlight's) theme picker remember their settings
   independently. Not a bug.
+- **Lessons must use plain Markdown, not Starlight asides.** The CMS
+  (Keystatic) can't parse Starlight's `:::note` / `:::tip` / `:::caution`
+  block syntax — a lesson that contains one won't appear in the CMS. Use a
+  blockquote (`> **Tip:** …`) instead. Editors using the CMS won't hit this
+  (it only produces standard Markdown); it's a trap only for hand-edited
+  files.
 - **Where build failures show up**: the GitHub Actions "build" check on
   each commit (red ✗ = that commit broke the build; the live site keeps
   serving the last good deploy), and the Vercel dashboard → Deployments.

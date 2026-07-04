@@ -118,8 +118,9 @@ export default config({
 							validation: { isRequired: true },
 						}),
 						alt: fields.text({
-							label: 'Description (for accessibility)',
-							description: 'Briefly describe the photo for screen readers.',
+							label: 'Caption',
+							description:
+								'Slides up over the photo on hover, and is read aloud to screen readers.',
 						}),
 					}),
 					{

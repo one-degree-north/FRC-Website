@@ -23,7 +23,10 @@ const photos = gallery.photos
 	photos.length > 0 ? (
 		<div class="gallery">
 			{photos.map(({ mod, alt }) => (
-				<Image src={mod.default} alt={alt} width={640} />
+				<figure class="gallery-item">
+					<Image src={mod.default} alt={alt} width={640} />
+					{alt && <figcaption>{alt}</figcaption>}
+				</figure>
 			))}
 		</div>
 	) : (
@@ -41,12 +44,42 @@ const photos = gallery.photos
 		gap: 1rem;
 	}
 
-	.gallery :global(img) {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
+	.gallery-item {
+		margin: 0;
+		position: relative;
+		overflow: hidden;
 		border-radius: 14px;
+	}
+
+	.gallery-item :global(img) {
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
 		display: block;
+	}
+
+	/* Caption slides up over the bottom of the photo on hover/focus. */
+	.gallery-item figcaption {
+		position: absolute;
+		inset: auto 0 0 0;
+		padding: 2.25rem 0.9rem 0.85rem;
+		color: #fff;
+		font-size: 0.9rem;
+		line-height: 1.35;
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.78), transparent);
+		transform: translateY(100%);
+		transition: transform 0.28s ease;
+	}
+
+	.gallery-item:hover figcaption,
+	.gallery-item:focus-within figcaption {
+		transform: translateY(0);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.gallery-item figcaption {
+			transition: none;
+		}
 	}
 
 	.gallery-empty {

@@ -21,10 +21,11 @@ Everything must be owned by **team accounts**, never personal ones:
 | --- | --- | --- |
 | Code + content | GitHub repo under the team's GitHub **organization** | Org owners (update yearly: current student maintainer + a mentor) |
 | Hosting | Vercel account created with the **team email** | Whoever holds the team email |
-| CMS access | Keystatic GitHub App (installed on the org) | GitHub org owners |
+| CMS access | Keystatic GitHub App (installed on the org) | FRC team members |
 
 Every year, before seniors graduate: add the next maintainer to the GitHub
-org, and make sure a mentor still has the team email credentials.
+team and give them owner access in the org, and make sure a mentor still has
+the team email credentials.
 
 ## Deployment (one-time setup)
 

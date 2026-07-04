@@ -21,7 +21,8 @@ npm install
 npm run dev
 ```
 
-Site: http://localhost:4321
+Site: http://localhost:4321 (Astro's default port — if it's taken, Astro
+picks the next free one and prints the real URL in the terminal).
 
 `npm run build` does a full production build (this is what Vercel runs on
 every deploy).

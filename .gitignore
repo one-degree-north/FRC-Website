@@ -19,7 +19,10 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# host build output (either adapter may create these locally)
 .vercel
+.netlify
 
 # Not part of the website — AI-assistant instructions & design working files
 CLAUDE.md

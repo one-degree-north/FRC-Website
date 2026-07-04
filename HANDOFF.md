@@ -58,6 +58,12 @@ If you ever rebuild this from scratch, Keystatic's setup wizard at
 `<site-url>/keystatic` can regenerate the app + variables; the manual path
 is at https://keystatic.com/docs/github-mode.
 
+Day-to-day editing should use the **live** CMS. The CMS on a local dev
+server (`localhost:4321/keystatic`) only works if you copy the four
+`KEYSTATIC_*` variables from Vercel into a local `.env` file — or
+temporarily switch `storage` to `{ kind: 'local' }` in
+`keystatic.config.ts` (don't commit that swap).
+
 ### Who can edit (access control)
 
 **Editing = GitHub write access to this repo.** There is no separate

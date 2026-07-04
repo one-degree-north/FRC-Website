@@ -3,22 +3,35 @@
 Website for FRC Team 4817, One Degree North (Singapore American School).
 Two jobs: tell people who we are, and host our subteam lesson modules.
 
+- **Live site:** https://frc-website-zeta.vercel.app
+- **Edit content:** https://frc-website-zeta.vercel.app/keystatic — sign in
+  with GitHub (you need to be in the org's **FRC Robotics** team). No local
+  setup needed to add or edit lessons.
+
 **Taking this project over? Read [HANDOFF.md](./HANDOFF.md).**
 
-## Run it locally
+## Run it locally (for code changes)
 
-You need [Node.js](https://nodejs.org) (LTS version). Then:
+You only need this to change the site's code or design — content editing
+happens in the browser at the link above. You need
+[Node.js](https://nodejs.org) (LTS version). Then:
 
 ```sh
 npm install
 npm run dev
 ```
 
-- Site: http://localhost:4321
-- Content editor (CMS): http://localhost:4321/keystatic
+Site: http://localhost:4321
 
 `npm run build` does a full production build (this is what Vercel runs on
 every deploy).
+
+> The CMS at `localhost:4321/keystatic` won't let you sign in out of the
+> box — it needs the four `KEYSTATIC_*` environment variables in a local
+> `.env` file (copy the values from Vercel → Settings → Environment
+> Variables). Alternatively, temporarily switch `storage` to
+> `{ kind: 'local' }` in `keystatic.config.ts` to edit files offline —
+> just don't commit that change.
 
 ## How the site is organized
 

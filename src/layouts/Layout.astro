@@ -47,12 +47,15 @@ const currentPath = Astro.url.pathname;
 		<meta name="twitter:image" content={ogImage} />
 
 		<script is:inline>
-			// Apply the saved theme before first paint to avoid a flash.
+			// Apply the theme before first paint to avoid a flash.
+			// Dark is the default; only an explicit "light" choice opts out.
 			try {
-				if (localStorage.getItem('odn-theme') === 'dark') {
+				if (localStorage.getItem('odn-theme') !== 'light') {
 					document.documentElement.dataset.theme = 'dark';
 				}
-			} catch (e) {}
+			} catch (e) {
+				document.documentElement.dataset.theme = 'dark';
+			}
 		</script>
 	</head>
 	<body>

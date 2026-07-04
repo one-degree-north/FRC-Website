@@ -17,7 +17,14 @@ function lessonCollection(label: string, folder: string) {
 		entryLayout: 'content',
 		format: { contentField: 'content' },
 		schema: {
-			title: fields.slug({ name: { label: 'Title' } }),
+			title: fields.slug({
+				name: { label: 'Title' },
+				slug: {
+					label: 'Slug (controls sidebar order)',
+					description:
+						'Lessons sort alphabetically by slug — start it with a number to set the order: 01-intro, 02-sensors, …',
+				},
+			}),
 			description: fields.text({
 				label: 'Short description',
 				description: 'Shown under the title and in search results. Optional.',
@@ -28,11 +35,13 @@ function lessonCollection(label: string, folder: string) {
 }
 
 export default config({
-	// Local mode: edits write directly to files on your computer.
-	// After deploying, switch to GitHub mode so editors can work in the
-	// browser without installing anything — see HANDOFF.md, section "CMS".
-	// storage: { kind: 'local' },
+	// GitHub mode (live): editors sign in at <site>/keystatic and their saves
+	// commit straight to this repo. Requires the KEYSTATIC_* env vars — see
+	// HANDOFF.md, section "CMS".
+	// For offline/local content editing, temporarily swap to the local line
+	// below (edits then write to your working copy — don't commit the swap).
 	storage: { kind: 'github', repo: 'one-degree-north/FRC-Website' },
+	// storage: { kind: 'local' },
 	ui: {
 		brand: { name: 'One Degree North' },
 	},

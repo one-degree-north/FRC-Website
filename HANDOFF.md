@@ -63,24 +63,33 @@ is at https://keystatic.com/docs/github-mode.
 **Editing = GitHub write access to this repo.** There is no separate
 password or editor list in Keystatic — it uses GitHub permissions:
 
-- Anyone with **write access** to `one-degree-north/FRC-Website` can sign in
-  at `/keystatic` and publish changes (their saves become commits to `main`).
-- The repo is **public**, so anyone can *view* it and technically open the
-  CMS, but without write access their edits go into a fork/pull request that
-  changes nothing on the live site until a maintainer merges it.
+Publishing a change means pushing a commit to the **`main`** branch (the CMS
+does this for you on Save). So "who can edit the live site" = "who can push
+to `main`".
 
-To manage the editor list:
+**`main` is branch-protected** so that only the **FRC Robotics team**
+(`frc-robotics`) can push to it. This is what actually enforces access:
 
-1. Best practice: in the org, make a **Team** (e.g. "Website Editors") and
-   give it **Write** access to this repo (repo → Settings → Collaborators
-   and teams → Add team, role: Write). Add each editor to that team.
-2. Or add people one-off: repo → Settings → Collaborators and teams → Add
-   people, role **Write**.
-3. To revoke someone, remove them from the team/collaborators — access is
-   gone immediately.
+- FRC Robotics members → sign in at `/keystatic`, edit, Save → it commits to
+  `main` and the site updates. ✅
+- Everyone else (other org members, the public) → can view the site and open
+  the CMS, but their save can't reach `main`; it becomes a fork/pull request
+  that changes nothing until an FRC member merges it. ✅
+- Org **owners/admins** can bypass the rule for emergency fixes.
 
-Org **owners** always have access. Give people the *least* access that lets
-them do their job (Write for editors; Admin only for maintainers).
+Why it's done this way: the org's *base permission* is "Write" (every member
+can write to every repo by default), and GitHub won't let you drop one repo
+below the org base. The branch-protection rule sidesteps that and scopes the
+restriction to just this repo, without changing org-wide settings.
+
+**To add or remove an editor:** add/remove them from the **FRC Robotics team**
+(`github.com/orgs/one-degree-north/teams/frc-robotics` → Members). That's the
+whole editor list — nothing to change in Keystatic or Vercel.
+
+**To change which team can publish:** repo → Settings → Branches → edit the
+`main` protection rule → "Restrict who can push" → pick a different team. (Or
+via API: `PUT /repos/one-degree-north/FRC-Website/branches/main/protection`
+with `restrictions.teams`.)
 
 ## When something breaks
 

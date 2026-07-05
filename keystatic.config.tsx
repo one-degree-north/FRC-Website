@@ -1,4 +1,5 @@
 import { config, collection, singleton, fields } from '@keystatic/core';
+import { BrandMark } from './src/keystatic/BrandMark';
 
 /**
  * Every subteam gets its own collection so the CMS sidebar mirrors the team
@@ -48,7 +49,12 @@ export default config({
 	storage: { kind: 'github', repo: 'one-degree-north/FRC-Website' },
 	// storage: { kind: 'local' },
 	ui: {
-		brand: { name: 'One Degree North' },
+		brand: {
+			// Zero-width space keeps Keystatic from rendering a duplicate title
+			// beside our custom mark, which already includes the team name.
+			name: '\u200B',
+			mark: BrandMark,
+		},
 	},
 	collections: {
 		programming: lessonCollection('Programming', 'programming'),

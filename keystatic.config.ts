@@ -11,11 +11,16 @@ import { config, collection, singleton, fields } from '@keystatic/core';
  */
 function lessonCollection(label: string, folder: string) {
 	return collection({
-		label,
+		// Suffixed with "Lessons" so the collection list page reads clearly
+		// as a list of lessons at a glance, without needing to hover an entry.
+		label: `${label} Lessons`,
 		slugField: 'title',
 		path: `src/content/docs/lessons/${folder}/*/`,
 		entryLayout: 'content',
 		format: { contentField: 'content' },
+		// Surfaces the description in the list table alongside the title,
+		// giving each row a title + summary instead of a bare filename.
+		columns: ['description'],
 		schema: {
 			title: fields.slug({
 				name: { label: 'Title' },

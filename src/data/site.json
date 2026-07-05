@@ -3,6 +3,27 @@
 	"homeIntro": "Southeast Asia's first FRC team — designing, building, and programming competition robots since 2013, and teaching the next generation how to do the same.",
 	"aboutStory": "One Degree North began in 2013 as a small group of students tinkering with Lego Mindstorms. Today we are a team of around 30 students who design, machine, wire, and program a full-scale competition robot every season as Southeast Asia's first FRC team.\n\nOur team is built on communication, collaboration, innovation, and sportsmanship. Experienced members mentor new ones, and our alumni — now at schools like UC Berkeley, Duke, Princeton, Brown, and Waterloo — stay involved long after they graduate.\n\nEveryone on the team belongs to a subteam, and every subteam runs its own training modules so knowledge gets passed down season after season.",
 	"contactEmail": "robotics@sas.edu.sg",
+	"gameLaunch": {
+		"label": "BIOCORE game launch",
+		"date": "2027-01-09"
+	},
+	"awards": [
+		{
+			"icon": "🏆",
+			"year": "2025",
+			"title": "Hawaii Regional Winners"
+		},
+		{
+			"icon": "🏅",
+			"year": "2024",
+			"title": "Woodie Flowers Finalist"
+		},
+		{
+			"icon": "🏅",
+			"year": "2019",
+			"title": "Engineering Inspiration Award"
+		}
+	],
 	"subteams": [
 		{
 			"name": "Programming",

@@ -24,6 +24,16 @@ const subteams = site.subteams.map((subteam) => {
 	return { ...subteam, href: lessonId ? `/${lessonId}/` : undefined };
 });
 
+// Game-launch countdown copy comes from the CMS. The pretty date shown in
+// the label is formatted from the ISO date so editors only set it once; the
+// live day count is computed client-side (see the script below).
+const launchDate = new Date(`${site.gameLaunch.date}T00:00:00`);
+const launchPretty = launchDate.toLocaleDateString('en-US', {
+	month: 'short',
+	day: 'numeric',
+	year: 'numeric',
+});
+
 // The count-up animation runs client-side; `animate: false` numbers (the
 // rookie year) render as-is instead of counting from zero.
 const record = [
@@ -48,8 +58,8 @@ const record = [
 		</div>
 	</section>
 
-	<div class="countdown" data-kickoff="2027-01-09">
-		BIOCORE game launch (Jan 9, 2027) in <span class="countdown-n">…</span>
+	<div class="countdown" data-kickoff={site.gameLaunch.date}>
+		{site.gameLaunch.label} ({launchPretty}) in <span class="countdown-n">…</span>
 	</div>
 
 	<section class="record-section" aria-label="Team record">
@@ -68,9 +78,17 @@ const record = [
 				))
 			}
 		</dl>
-		<div class="ribbon">
-			<span class="ribbon-notch" aria-hidden="true"></span>
-			<span class="ribbon-text">🏆 2025 Hawaii Regional Winners</span>
+		<div class="ribbons">
+			{
+				site.awards.map((award) => (
+					<div class="ribbon">
+						<span class="ribbon-notch" aria-hidden="true" />
+						<span class="ribbon-text">
+							{award.icon ?? '🏅'} {award.year} {award.title}
+						</span>
+					</div>
+				))
+			}
 		</div>
 	</section>
 
@@ -266,11 +284,17 @@ const record = [
 		}
 	}
 
+	.ribbons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-top: 12px;
+	}
+
 	.ribbon {
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		margin-top: 12px;
 		padding: 8px 14px 8px 10px;
 		background: var(--accent2);
 		border-radius: 0 6px 6px 0;

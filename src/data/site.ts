@@ -43,6 +43,16 @@ export const site = {
 	homeIntro: requireText('homeIntro', raw.homeIntro),
 	aboutStory: requireText('aboutStory', raw.aboutStory),
 	contactEmail: requireText('contactEmail', raw.contactEmail),
+	gameLaunch: {
+		label: requireText('gameLaunch.label', raw.gameLaunch?.label),
+		date: requireText('gameLaunch.date', raw.gameLaunch?.date),
+	},
+	// icon is optional (defaults to a medal when blank) so it isn't validated.
+	awards: requireItems('awards', raw.awards, ['year', 'title']) as Array<{
+		icon?: string;
+		year: string;
+		title: string;
+	}>,
 	subteams: requireItems('subteams', raw.subteams, ['name', 'blurb']),
 	values: requireItems('values', raw.values, ['name', 'detail']),
 	milestones: requireItems('milestones', raw.milestones, ['year', 'event']),

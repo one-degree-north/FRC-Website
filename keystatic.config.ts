@@ -69,6 +69,35 @@ export default config({
 					multiline: true,
 				}),
 				contactEmail: fields.text({ label: 'Contact email' }),
+				gameLaunch: fields.object(
+					{
+						label: fields.text({
+							label: 'Countdown label',
+							description: 'Text before the date, e.g. "BIOCORE game launch".',
+						}),
+						date: fields.date({
+							label: 'Game launch date',
+							description:
+								'The home page shows this date and counts down the days to it live.',
+						}),
+					},
+					{ label: 'Home page: game-launch countdown' },
+				),
+				awards: fields.array(
+					fields.object({
+						icon: fields.text({
+							label: 'Emoji',
+							description: 'Shown before the award, e.g. 🏆 for a win or 🏅 for an award. Optional.',
+						}),
+						year: fields.text({ label: 'Year' }),
+						title: fields.text({ label: 'Award' }),
+					}),
+					{
+						label: 'Home page: awards',
+						itemLabel: (props) =>
+							`${props.fields.year.value} ${props.fields.title.value}`,
+					},
+				),
 				subteams: fields.array(
 					fields.object({
 						name: fields.text({ label: 'Subteam' }),

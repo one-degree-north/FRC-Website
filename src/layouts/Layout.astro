@@ -1,7 +1,6 @@
 ---
-import '@fontsource-variable/space-grotesk';
-import '@fontsource-variable/jetbrains-mono';
-import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/source-serif-4';
 import { site } from '../data/site';
 
 interface Props {
@@ -61,7 +60,7 @@ const currentPath = Astro.url.pathname;
 	<body>
 		<header class="site-header">
 			<a class="wordmark" href="/">
-				<span class="wordmark-badge">1°N</span>
+				<span class="wordmark-badge">1&deg;N</span>
 				<span class="wordmark-text">One Degree North<small>FRC Team 4817</small></span>
 			</a>
 			<nav aria-label="Main">
@@ -86,20 +85,14 @@ const currentPath = Astro.url.pathname;
 			</main>
 
 			<footer class="site-footer">
-				<div class="footer-top">
-					<p class="footer-id">
-						<strong>One Degree North</strong> — FRC Team 4817, Singapore American School<br />
-						<a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
-					</p>
-					<span class="footer-coord">1.3521° N / 103.8198° E</span>
-				</div>
-				<div class="footer-bottom">
-					<span class="footer-follow">Follow the team</span>
-					<div class="footer-social">
-						{/* Add socials with real URLs when ready, e.g.
-						    <a href="https://instagram.com/...">Instagram</a> */}
-						<a href="https://frc-events.firstinspires.org/team/4817">FIRST Inspires</a>
-					</div>
+				<p class="footer-id">
+					<strong>One Degree North</strong> — FRC Team 4817, Singapore American
+					School · Singapore (1.3521°N, 103.8198°E)<br />
+					<a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
+				</p>
+				<div class="footer-social">
+					{/* Add Instagram / YouTube with real URLs when ready. */}
+					<a href="https://frc-events.firstinspires.org/team/4817">FIRST Inspires</a>
 				</div>
 			</footer>
 		</div>
@@ -142,9 +135,10 @@ const currentPath = Astro.url.pathname;
 		--rule: #ecdfd9;
 		--block: #1a1210;
 		--grid: rgba(140, 31, 63, 0.06);
-		--font-body: 'Space Grotesk Variable', sans-serif;
-		--font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
-		--font-badge: 'Bricolage Grotesque Variable', sans-serif;
+		/* Body copy is Source Serif 4; headings, labels, and UI chrome are
+		   Archivo. Only elements that opt into --font-ui override the serif. */
+		--font-body: 'Source Serif 4 Variable', Georgia, serif;
+		--font-ui: 'Archivo Variable', system-ui, sans-serif;
 	}
 
 	:root[data-theme='dark'] {
@@ -198,6 +192,7 @@ const currentPath = Astro.url.pathname;
 	h1,
 	h2,
 	h3 {
+		font-family: var(--font-ui);
 		text-wrap: balance;
 	}
 
@@ -205,35 +200,15 @@ const currentPath = Astro.url.pathname;
 		color: inherit;
 	}
 
-	/* Mono-caps eyebrow used at the top of major sections. */
+	/* Small-caps eyebrow used at the top of major sections. */
 	.eyebrow {
-		font-family: var(--font-mono);
+		font-family: var(--font-ui);
 		font-size: 12px;
-		font-weight: 600;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: var(--accent-text);
-		margin: 0 0 8px;
-	}
-
-	/* Blueprint-style "Fig. 0N / Section" annotation, one per major section. */
-	.fig-label {
-		font-family: var(--font-mono);
-		font-size: 10.5px;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: var(--accent-text);
-	}
-
-	.pill {
-		display: inline-block;
-		padding: 12px 22px;
-		border-radius: 24px;
-		font-weight: 700;
-		font-size: 14px;
-		text-decoration: none;
-		transition: background 0.15s, color 0.15s;
+		margin: 0 0 8px;
 	}
 
 	:focus-visible {
@@ -265,18 +240,18 @@ const currentPath = Astro.url.pathname;
 	}
 
 	.wordmark-badge {
-		font-family: var(--font-badge);
+		font-family: var(--font-ui);
 		font-weight: 800;
 		font-size: 15px;
-		color: #fff;
-		background: var(--accent);
-		padding: 6px 10px;
-		border-radius: 8px;
-		transform: rotate(-3deg);
+		color: var(--accent);
+		border: 1.5px solid var(--accent);
+		padding: 5px 9px;
+		border-radius: 6px;
 		display: inline-block;
 	}
 
 	.wordmark-text {
+		font-family: var(--font-ui);
 		font-weight: 700;
 		font-size: 15px;
 		line-height: 1.2;
@@ -284,49 +259,48 @@ const currentPath = Astro.url.pathname;
 
 	.wordmark-text small {
 		display: block;
-		font-family: var(--font-mono);
 		font-weight: 400;
 		font-size: 10px;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
+		letter-spacing: 0.06em;
 		color: var(--steel);
 	}
 
 	nav {
 		display: flex;
-		gap: 8px;
+		gap: 20px;
 		align-items: center;
 		flex-wrap: wrap;
+		font-family: var(--font-ui);
 	}
 
 	nav a {
-		font-weight: 700;
+		font-weight: 600;
 		font-size: 13px;
 		text-decoration: none;
 		color: var(--ink);
-		padding: 8px 16px;
-		border-radius: 20px;
-		transition: background 0.15s;
+		padding-bottom: 2px;
+		border-bottom: 2px solid transparent;
+		transition: border-color 0.15s;
 	}
 
 	nav a:hover {
-		background: var(--paper);
+		border-bottom-color: var(--rule);
 	}
 
 	nav a.active {
-		color: #fff;
-		background: var(--block);
+		font-weight: 700;
+		border-bottom-color: var(--accent);
 	}
 
 	#theme-toggle {
-		font-family: var(--font-mono);
+		font-family: var(--font-ui);
 		font-weight: 600;
 		font-size: 11px;
 		background: var(--surface);
-		border: 1.5px solid var(--rule);
-		color: var(--ink);
-		padding: 7px 14px;
-		border-radius: 20px;
+		border: 1px solid var(--rule);
+		color: var(--steel);
+		padding: 6px 12px;
+		border-radius: 6px;
 		cursor: pointer;
 		transition: border-color 0.15s, color 0.15s;
 	}
@@ -337,14 +311,8 @@ const currentPath = Astro.url.pathname;
 	}
 
 	.site-footer {
-		padding: 32px;
+		padding: 28px 32px;
 		background: var(--block);
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-	}
-
-	.footer-top {
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
@@ -358,54 +326,29 @@ const currentPath = Astro.url.pathname;
 		opacity: 0.85;
 	}
 
+	.footer-id strong {
+		font-family: var(--font-ui);
+	}
+
 	.footer-id a {
 		color: #fff;
 	}
 
-	.footer-coord {
-		font-family: var(--font-mono);
-		font-size: 10.5px;
-		letter-spacing: 0.08em;
-		color: var(--accent2);
-	}
-
-	.footer-bottom {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 12px;
-		padding-top: 18px;
-		border-top: 1px solid rgba(255, 255, 255, 0.15);
-	}
-
-	.footer-follow {
-		font-family: var(--font-mono);
-		font-size: 10px;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--steel);
-	}
-
 	.footer-social {
 		display: flex;
-		gap: 10px;
+		gap: 16px;
+		align-items: center;
 		flex-wrap: wrap;
+		font-family: var(--font-ui);
 	}
 
 	.footer-social a {
 		font-size: 12px;
-		font-weight: 600;
-		color: #fff;
-		border: 1.5px solid var(--accent2);
-		border-radius: 20px;
-		padding: 6px 14px;
+		color: var(--accent2);
 		text-decoration: none;
-		transition: background 0.15s, color 0.15s;
 	}
 
 	.footer-social a:hover {
-		background: var(--accent2);
-		color: var(--block);
+		text-decoration: underline;
 	}
 </style>

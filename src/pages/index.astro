@@ -4,10 +4,10 @@ import Layout from '../layouts/Layout.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
 import { site } from '../data/site';
 
-// Build the subteam pills from the lesson folders that actually exist, each
-// linking to that subteam's first lesson (lowest slug — hence the 01-/02-
-// naming convention). A renamed or deleted lesson can never leave a dead
-// link here, and a new subteam folder gets a pill automatically.
+// Link each subteam chip to that subteam's first lesson (lowest slug — hence
+// the 01-/02- naming convention), discovered from the lesson folders that
+// actually exist. A renamed or deleted lesson can never leave a dead link
+// here. Subteams with no lessons yet still render as plain (unlinked) chips.
 const lessons = await getCollection('docs', (entry) =>
 	entry.id.startsWith('lessons/'),
 );
@@ -19,24 +19,18 @@ for (const lesson of lessons) {
 	if (!current || lesson.id < current) firstLessonBySubteam.set(subteam, lesson.id);
 }
 
-const preferredOrder = ['programming', 'mechanical', 'electrical', 'cad', 'business'];
-const labels: Record<string, string> = { cad: 'CAD' };
-const subteams = [...firstLessonBySubteam.keys()]
-	.sort(
-		(a, b) =>
-			(preferredOrder.indexOf(a) + 1 || 99) - (preferredOrder.indexOf(b) + 1 || 99) ||
-			a.localeCompare(b),
-	)
-	.map((folder) => ({
-		name: labels[folder] ?? folder.charAt(0).toUpperCase() + folder.slice(1),
-		href: `/${firstLessonBySubteam.get(folder)}/`,
-	}));
+const subteams = site.subteams.map((subteam) => {
+	const lessonId = firstLessonBySubteam.get(subteam.name.toLowerCase());
+	return { ...subteam, href: lessonId ? `/${lessonId}/` : undefined };
+});
 
+// The count-up animation runs client-side; `animate: false` numbers (the
+// rookie year) render as-is instead of counting from zero.
 const record = [
-	{ value: '2013', label: 'rookie year' },
-	{ value: '14', label: 'seasons' },
-	{ value: '22', label: 'events' },
-	{ value: '7', label: 'awards' },
+	{ value: 2013, label: 'rookie year', animate: false },
+	{ value: 14, label: 'seasons', animate: true },
+	{ value: 22, label: 'events', animate: true },
+	{ value: 7, label: 'awards', animate: true },
 ];
 ---
 
@@ -44,57 +38,56 @@ const record = [
 	<section class="hero">
 		<div class="hero-circle" aria-hidden="true"></div>
 		<div class="hero-inner">
-			<span class="fig-label hero-fig" aria-hidden="true">Fig. 01 / Hero</span>
-			<p class="eyebrow hero-eyebrow">
-				FRC Team 4817 · Singapore · 1.3521°N 103.8198°E
-			</p>
+			<p class="eyebrow hero-eyebrow">FRC Team 4817 · Singapore</p>
 			<h1>One Degree North</h1>
 			<p class="hero-intro">{site.homeIntro}</p>
 			<div class="hero-actions">
-				<a class="pill cta-primary" href="/about/">Get to know us</a>
-				<a class="pill cta-secondary" href="/lessons/">Browse our lessons</a>
+				<a class="btn btn-solid" href="/about/">Get to know us</a>
+				<a class="btn btn-outline" href="/lessons/">Browse our lessons</a>
 			</div>
 		</div>
 	</section>
 
-	<div class="record-divider" aria-hidden="true">
-		<span class="tick"></span>
-		<span class="line"></span>
-		<span class="label">TEAM RECORD</span>
-		<span class="line"></span>
-		<span class="tick"></span>
+	<div class="countdown" data-kickoff="2027-01-09">
+		BIOCORE game launch (Jan 9, 2027) in <span class="countdown-n">…</span>
 	</div>
 
-	<section class="record-card" aria-label="Team record">
+	<section class="record-section" aria-label="Team record">
+		<h2 class="section-label">Team record</h2>
 		<dl class="record">
 			{
 				record.map((stat) => (
 					<div class="record-tile">
-						<dd>{stat.value}</dd>
+						<dd
+							data-count={stat.animate ? String(stat.value) : undefined}
+						>
+							{stat.value}
+						</dd>
 						<dt>{stat.label}</dt>
 					</div>
 				))
 			}
-			<div class="record-tile latest">
-				<dt>latest</dt>
-				<dd>2025 Hawaii Regional Winners</dd>
-			</div>
 		</dl>
+		<div class="ribbon">
+			<span class="ribbon-notch" aria-hidden="true"></span>
+			<span class="ribbon-text">🏆 2025 Hawaii Regional Winners</span>
+		</div>
 	</section>
 
-	<section class="subteams-card">
+	<section class="subteams-section">
 		<h2>Five subteams, one robot</h2>
-		<p>
-			Every member joins a subteam, and every subteam trains its next
-			generation with its own lesson modules.
-		</p>
-		<div class="subteam-pills">
+		<p class="subteams-lead">Hover a subteam to see what they actually do.</p>
+		<div class="subteam-chips">
 			{
-				subteams.map((subteam) => (
-					<a class="subteam-pill" href={subteam.href}>
-						{subteam.name}
-					</a>
-				))
+				subteams.map((subteam) => {
+					const Tag = subteam.href ? 'a' : 'div';
+					return (
+						<Tag class="chip" href={subteam.href}>
+							<span>{subteam.name}</span>
+							<span class="chip-tip">{subteam.blurb}</span>
+						</Tag>
+					);
+				})
 			}
 		</div>
 	</section>
@@ -109,8 +102,8 @@ const record = [
 	.hero {
 		position: relative;
 		overflow: hidden;
-		padding: 56px 24px 40px;
-		border-radius: 18px;
+		padding: 56px 24px 44px;
+		border-radius: 8px;
 		margin-top: 32px;
 		background: var(--accent);
 	}
@@ -130,29 +123,16 @@ const record = [
 		position: relative;
 	}
 
-	.hero-fig {
-		position: absolute;
-		top: -8px;
-		right: 0;
-		color: var(--accent2);
-	}
-
-	@media (max-width: 40rem) {
-		.hero-fig {
-			display: none;
-		}
-	}
-
 	.hero-eyebrow {
 		color: var(--accent2);
 		margin: 0 0 10px;
 	}
 
 	.hero h1 {
-		font-size: clamp(38px, 7vw, 58px);
-		font-weight: 700;
+		font-size: clamp(38px, 7vw, 52px);
+		font-weight: 800;
 		letter-spacing: -0.01em;
-		line-height: 1.05;
+		line-height: 1.06;
 		margin: 0 0 14px;
 		color: #fff;
 	}
@@ -162,163 +142,227 @@ const record = [
 		font-size: 16px;
 		color: #fff;
 		opacity: 0.9;
-		margin: 0 0 20px;
+		margin: 0 0 22px;
 	}
 
 	.hero-actions {
 		display: flex;
 		gap: 12px;
 		flex-wrap: wrap;
+		font-family: var(--font-ui);
 	}
 
-	.cta-primary {
+	.btn {
+		display: inline-block;
+		padding: 11px 20px;
+		font-weight: 700;
+		font-size: 14px;
+		text-decoration: none;
+		border-radius: 6px;
+		transition: transform 0.15s, border-color 0.15s;
+	}
+
+	.btn:hover {
+		transform: translateY(-2px);
+	}
+
+	.btn-solid {
 		background: var(--block);
 		color: #fff;
 	}
 
-	.cta-primary:hover {
-		background: var(--accent);
+	.btn-outline {
+		border: 1.5px solid rgba(255, 255, 255, 0.5);
+		color: #fff;
 	}
 
-	.cta-secondary {
-		background: #fff;
-		color: var(--block);
+	.btn-outline:hover {
+		border-color: #fff;
 	}
 
-	.cta-secondary:hover {
-		background: var(--accent2);
-	}
-
-	.record-divider {
+	.countdown {
 		display: flex;
 		align-items: center;
-		gap: 10px;
-		margin: 28px 0 20px;
-	}
-
-	.record-divider .tick {
-		width: 10px;
-		height: 2px;
-		background: var(--accent2);
-	}
-
-	.record-divider .line {
-		flex: 1;
-		border-top: 1.5px solid var(--rule);
-	}
-
-	.record-divider .label {
-		font-family: var(--font-mono);
-		font-size: 10.5px;
+		justify-content: center;
+		gap: 8px;
+		margin: 20px 0;
+		padding: 10px;
+		background: var(--surface);
+		border: 1px solid var(--rule);
+		border-radius: 6px;
+		font-family: var(--font-ui);
+		font-size: 13px;
 		font-weight: 600;
-		letter-spacing: 0.08em;
-		color: var(--accent-text);
+		color: var(--ink);
 	}
 
-	.record-card {
+	.countdown-n {
+		color: var(--accent-text);
+		font-weight: 800;
+		font-size: 15px;
+	}
+
+	.record-section {
 		margin-bottom: 40px;
-		padding: 20px;
-		border: 1.5px solid var(--rule);
-		border-radius: 18px;
+	}
+
+	.section-label {
+		font-family: var(--font-ui);
+		font-size: 15px;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--steel);
+		margin: 0 0 14px;
 	}
 
 	.record {
 		display: grid;
-		grid-template-columns: repeat(5, 1fr);
-		gap: 12px;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 0;
 		margin: 0;
+		border: 1px solid var(--rule);
+		border-radius: 8px;
+		overflow: hidden;
 	}
 
 	.record-tile {
-		background: var(--block);
-		border-radius: 14px;
-		padding: 16px 12px;
+		padding: 18px 14px;
 		text-align: center;
+		border-right: 1px solid var(--rule);
+	}
+
+	.record-tile:last-child {
+		border-right: none;
 	}
 
 	.record-tile dd {
 		margin: 0;
-		font-size: 24px;
-		font-weight: 700;
-		color: #fff;
+		font-family: var(--font-ui);
+		font-size: 26px;
+		font-weight: 800;
+		color: var(--ink);
 	}
 
 	.record-tile dt {
-		font-family: var(--font-mono);
-		font-size: 9px;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		color: var(--accent2);
+		font-family: var(--font-ui);
+		font-size: 11px;
+		color: var(--steel);
 		margin-top: 2px;
 	}
 
-	.record-tile.latest {
-		background: var(--accent2);
-	}
-
-	.record-tile.latest dt {
-		color: var(--block);
-		opacity: 0.7;
-		margin: 0;
-	}
-
-	.record-tile.latest dd {
-		font-size: 13px;
-		font-weight: 700;
-		color: var(--block);
-		margin-top: 4px;
-		line-height: 1.25;
-	}
-
-	@media (max-width: 44rem) {
+	@media (max-width: 40rem) {
 		.record {
 			grid-template-columns: repeat(2, 1fr);
 		}
 
-		.record-tile.latest {
-			grid-column: 1 / -1;
+		.record-tile:nth-child(2) {
+			border-right: none;
+		}
+
+		.record-tile:nth-child(1),
+		.record-tile:nth-child(2) {
+			border-bottom: 1px solid var(--rule);
 		}
 	}
 
-	.subteams-card {
-		margin-bottom: 40px;
-		padding: 24px;
-		border: 1.5px solid var(--rule);
-		border-radius: 18px;
+	.ribbon {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin-top: 12px;
+		padding: 8px 14px 8px 10px;
+		background: var(--accent2);
+		border-radius: 0 6px 6px 0;
+		position: relative;
 	}
 
-	.subteams-card h2 {
-		font-size: 24px;
+	.ribbon-notch {
+		position: absolute;
+		left: -1px;
+		top: 0;
+		bottom: 0;
+		width: 5px;
+		background: var(--accent);
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 50% 50%);
+	}
+
+	.ribbon-text {
+		font-family: var(--font-ui);
+		font-size: 12px;
+		font-weight: 800;
+		color: var(--block);
+		margin-left: 8px;
+	}
+
+	.subteams-section {
+		margin-bottom: 40px;
+	}
+
+	.subteams-section h2 {
+		font-size: 22px;
 		font-weight: 700;
 		margin: 0 0 8px;
 	}
 
-	.subteams-card p {
+	.subteams-lead {
 		opacity: 0.75;
 		margin: 0 0 16px;
 		max-width: 38rem;
 	}
 
-	.subteam-pills {
+	.subteam-chips {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 10px;
+		gap: 8px;
+		font-family: var(--font-ui);
 	}
 
-	.subteam-pill {
-		display: inline-block;
-		padding: 10px 20px;
-		border-radius: 24px;
+	.chip {
+		position: relative;
+		padding: 8px 16px;
+		border-radius: 6px;
+		border: 1.5px solid var(--rule);
+		color: var(--ink);
+		font-weight: 600;
+		font-size: 13px;
+		text-decoration: none;
+		cursor: default;
+		z-index: 1;
+		transition: background 0.15s, color 0.15s, border-color 0.15s;
+	}
+
+	a.chip {
+		cursor: pointer;
+	}
+
+	.chip:hover {
 		background: var(--block);
 		color: #fff;
-		text-decoration: none;
-		font-weight: 700;
-		font-size: 13px;
-		transition: background 0.15s;
+		border-color: var(--block);
 	}
 
-	.subteam-pill:hover {
-		background: var(--accent);
+	.chip-tip {
+		position: absolute;
+		top: calc(100% + 6px);
+		left: 0;
+		width: 200px;
+		padding: 10px 12px;
+		background: var(--block);
+		color: #fff;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 1.4;
+		border-radius: 6px;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.15s;
+		z-index: 2;
+	}
+
+	.chip:hover .chip-tip,
+	.chip:focus-visible .chip-tip {
+		opacity: 1;
 	}
 
 	.photos {
@@ -326,8 +370,43 @@ const record = [
 	}
 
 	.photos h2 {
-		font-size: 24px;
+		font-size: 22px;
 		font-weight: 700;
 		margin: 0 0 16px;
 	}
 </style>
+
+<script is:inline>
+	(() => {
+		// Live countdown to the FRC 2027 (BIOCORE) kickoff — computed from the
+		// visitor's current date so it's never stale.
+		const el = document.querySelector('.countdown');
+		if (el) {
+			const kickoff = new Date(el.dataset.kickoff + 'T00:00:00');
+			const days = Math.max(
+				0,
+				Math.ceil((kickoff - new Date()) / (1000 * 60 * 60 * 24)),
+			);
+			el.querySelector('.countdown-n').textContent =
+				days + (days === 1 ? ' day' : ' days');
+		}
+
+		// Count-up: animate marked stats from 0 to their value on mount
+		// (ease-out cubic, ~900ms). Skipped when the visitor prefers reduced
+		// motion — the final number is already in the markup.
+		const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (!reduce) {
+			const ease = (x) => 1 - Math.pow(1 - x, 3);
+			for (const node of document.querySelectorAll('[data-count]')) {
+				const target = Number(node.dataset.count);
+				const start = performance.now();
+				const step = (now) => {
+					const t = Math.min(1, (now - start) / 900);
+					node.textContent = String(Math.round(target * ease(t)));
+					if (t < 1) requestAnimationFrame(step);
+				};
+				requestAnimationFrame(step);
+			}
+		}
+	})();
+</script>

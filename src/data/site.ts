@@ -43,6 +43,7 @@ export const site = {
 	homeIntro: requireText('homeIntro', raw.homeIntro),
 	aboutStory: requireText('aboutStory', raw.aboutStory),
 	contactEmail: requireText('contactEmail', raw.contactEmail),
+	subteams: requireItems('subteams', raw.subteams, ['name', 'blurb']),
 	values: requireItems('values', raw.values, ['name', 'detail']),
 	milestones: requireItems('milestones', raw.milestones, ['year', 'event']),
 	outreachPrograms: requireItems('outreachPrograms', raw.outreachPrograms, [

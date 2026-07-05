@@ -7,7 +7,6 @@ const storyParagraphs = site.aboutStory.split('\n\n');
 
 <Layout title="About" description="Get to know One Degree North, FRC Team 4817.">
 	<section class="page-head intro-card">
-		<span class="fig-label" aria-hidden="true">Fig. 02 / About</span>
 		<p class="eyebrow">Get to know us</p>
 		<h1>A team of ~30 students, one degree north of the equator</h1>
 		{storyParagraphs.map((paragraph) => <p class="story">{paragraph}</p>)}
@@ -51,15 +50,10 @@ const storyParagraphs = site.aboutStory.split('\n\n');
 	.intro-card {
 		position: relative;
 		padding: 24px;
-		border: 1.5px solid var(--rule);
-		border-radius: 18px;
+		border: 1px solid var(--rule);
+		border-radius: 8px;
 		margin-top: 32px;
 		margin-bottom: 12px;
-	}
-
-	.intro-card .fig-label {
-		display: block;
-		margin-bottom: 8px;
 	}
 
 	.intro-card h1 {
@@ -80,7 +74,7 @@ const storyParagraphs = site.aboutStory.split('\n\n');
 		margin-bottom: 36px;
 		padding: 24px;
 		background: var(--block);
-		border-radius: 18px;
+		border-radius: 8px;
 	}
 
 	.values-block h2 {
@@ -105,11 +99,12 @@ const storyParagraphs = site.aboutStory.split('\n\n');
 
 	.value-tile {
 		background: var(--accent);
-		border-radius: 14px;
+		border-radius: 8px;
 		padding: 16px;
 	}
 
 	.value-tile dt {
+		font-family: var(--font-ui);
 		font-weight: 700;
 		font-size: 14px;
 		color: #fff;
@@ -125,8 +120,8 @@ const storyParagraphs = site.aboutStory.split('\n\n');
 	.milestones-card {
 		margin-bottom: 48px;
 		padding: 24px;
-		border: 1.5px solid var(--rule);
-		border-radius: 18px;
+		border: 1px solid var(--rule);
+		border-radius: 8px;
 	}
 
 	.milestones-card h2 {
@@ -165,7 +160,7 @@ const storyParagraphs = site.aboutStory.split('\n\n');
 
 	.year {
 		display: block;
-		font-family: var(--font-mono);
+		font-family: var(--font-ui);
 		font-weight: 700;
 		color: var(--accent-text);
 		font-size: 13px;

@@ -69,6 +69,20 @@ export default config({
 					multiline: true,
 				}),
 				contactEmail: fields.text({ label: 'Contact email' }),
+				subteams: fields.array(
+					fields.object({
+						name: fields.text({ label: 'Subteam' }),
+						blurb: fields.text({
+							label: 'What they do',
+							description: 'One line, shown in the hover tooltip on the home page.',
+							multiline: true,
+						}),
+					}),
+					{
+						label: 'Home page: subteams',
+						itemLabel: (props) => props.fields.name.value,
+					},
+				),
 				values: fields.array(
 					fields.object({
 						name: fields.text({ label: 'Value' }),

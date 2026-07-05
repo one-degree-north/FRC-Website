@@ -296,7 +296,15 @@ const record = [
 	}
 
 	.subteams-section {
+		position: relative;
 		margin-bottom: 40px;
+	}
+
+	/* While a chip is hovered, lift the whole section above the sections that
+	   follow it — the gallery below gets its own stacking context from the
+	   scroll-reveal transform, which would otherwise paint over the tooltip. */
+	.subteams-section:has(.chip:hover) {
+		z-index: 5;
 	}
 
 	.subteams-section h2 {

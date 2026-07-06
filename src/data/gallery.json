@@ -3,6 +3,10 @@
     {
       "image": "/src/assets/gallery/photos/0/image.jpg",
       "alt": "The team working in the pit!"
+    },
+    {
+      "image": "/src/assets/gallery/photos/1/image.jpg",
+      "alt": "On the field!"
     }
   ]
 }

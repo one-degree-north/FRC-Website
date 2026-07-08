@@ -1,0 +1,128 @@
+---
+title: 01 - Resources
+description: >-
+  Where to look when your code doesn't work, and how to unlock free developer
+  tools
+---
+# Lesson 00 — Resources
+
+*Where to look when your code doesn't work, and how to unlock free developer tools.*
+
+Welcome. Before you write a single line of robot code, it's worth knowing where to go when something breaks — because in FRC, something always breaks. The best programmers on any team aren't the ones who never hit errors; they're the ones who know exactly where to look when they do.
+
+This lesson has two parts:
+
+1. **A debugging resource library** — the sites you'll live in this season, with what each one is actually good for.
+2. **Claiming your GitHub Student Developer Pack** — free professional tools you're entitled to as a student.
+
+Bookmark everything in Part 1. You'll use it constantly.
+
+---
+
+## Part 1 — Debugging & Reference Resources
+
+### How to use this section
+
+When your code misbehaves, the fix usually lives in one of these places — but *which* place depends on *what* broke. A rough rule of thumb:
+
+* **The framework itself** (commands, subsystems, WPILib classes) → WPILib docs
+* **A motor, encoder, or gyro** (anything CTRE) → Phoenix 6 docs
+* **The camera / AprilTags / pose estimation** → Limelight docs
+* **Autonomous paths** → PathPlanner docs
+* **A weird error nobody else's doc explains** → Chief Delphi (someone has hit it before)
+
+Always check the docs for **your season** (2027). FRC software changes every year — method names get renamed and APIs get deprecated, so a two-year-old forum post may be confidently wrong.
+
+---
+
+### Official Documentation
+
+**WPILib Documentation** — https\://docs.wpilib.org
+The canonical reference for the entire framework: command-based programming, subsystems, kinematics, simulation, and installation. This is your first stop for anything about *how the framework works*. It also publishes a **"New for \[year]"** changelog every season that lists exactly what changed — read it at kickoff and any time a rename confuses you. If you only bookmark one site, make it this one.
+
+**WPILib API Docs (Javadocs)** — https\://github.wpilib.org/allwpilib/docs/release/java/
+The exact method signatures and class definitions. When you need to know precisely what arguments a method takes or what it returns, the Javadocs are the source of truth. The main docs teach concepts; the Javadocs answer "what's the exact name and parameters of this method?"
+
+**CTRE Phoenix 6 Documentation** — https\://v6.docs.ctr-electronics.com
+Everything about your motors. Since our team runs **Kraken/Falcon motors on Phoenix 6**, this covers your TalonFX controllers, CANcoders, the Pigeon 2 gyro, control requests (`DutyCycleOut`, `VoltageOut`, etc.), the swerve API, and Phoenix Tuner X. Go here for motor configuration, current limits, and CAN troubleshooting.
+
+> Companion Java API reference: https\://api.ctr-electronics.com/phoenix6/stable/java/
+
+**Limelight Documentation** — https\://docs.limelightvision.io
+Everything about the camera and vision. Covers MegaTag2, the `LimelightHelpers` library, pipeline setup, and the swerve pose-estimation tutorial. When your robot's estimated position on the field jumps around or vision "isn't working," start here. (Also relevant beyond the camera: Limelight builds SystemCore, the 2027 controller.)
+
+**PathPlanner Documentation** — https\://pathplanner.dev
+Everything about autonomous. Covers `AutoBuilder` setup, the path-drawing GUI, event markers / named commands, and pathfinding. The classic *"AutoBuilder was not configured"* crash and how to avoid it are explained here.
+
+---
+
+### Community & Troubleshooting
+
+**Chief Delphi** — https\://www\.chiefdelphi.com
+The FRC community forum, and your secret weapon for cryptic errors. **Nearly every error message you'll ever see has already been posted, argued about, and solved here.** Before asking anyone for help, paste your exact error into the search bar — there's a very good chance the answer is waiting. When you do post, include your error text, what you tried, and your code; specific questions get specific answers. One caution: check post dates against the current season, since old solutions may reference removed APIs.
+
+**FRC Discord (unofficial)** — invites are posted on Chief Delphi and the r/FRC subreddit
+Real-time help for when you're stuck *right now* and a forum reply is too slow. There's a large, active community of students and mentors across dozens of channels (programming, CTRE, vision, etc.). Great for quick "why won't this compile" questions. Invite links rotate, so search Chief Delphi for the current one rather than trusting an old link.
+
+**r/FRC (Reddit)** — https\://www\.reddit.com/r/FRC
+More casual than Chief Delphi. Good for general questions, "how do other teams do X," and staying current on announcements. Less useful for deep technical debugging, but a fine place to browse.
+
+**Stack Overflow** — https\://stackoverflow\.com
+Not FRC-specific, but the best place on the internet for **plain Java** questions. If your problem is really a Java problem (a `NullPointerException`, a generics error, how a `Stream` works) rather than a robot problem, this is where to look.
+
+---
+
+### Tools You'll Debug *With*
+
+These aren't websites you read — they're programs you'll use to see inside a running robot. Listed here so you know they exist; we'll cover each in later sessions.
+
+**AdvantageScope** — https\://github.com/Mechanical-Advantage/AdvantageScope
+A powerful log and plot viewer from Team 6328. Plot any value over time (essential for tuning PID), replay a match log to see exactly what the robot "thought" at every moment, and visualize the robot's pose in 2D/3D. When "it glitched once and we can't reproduce it" happens, the log you replay here is how you solve it.
+
+**Elastic Dashboard** — https\://github.com/Gold872/elastic-dashboard
+A modern drag-and-drop dashboard (our preferred one). Put the robot's pose on a field widget, show booleans like "has game piece," and display your autonomous chooser. Seeing your robot icon move on a field image in real time is the single best way to verify odometry and vision.
+
+**Phoenix Tuner X** — from CTRE (linked in the Phoenix 6 docs above)
+CTRE's desktop/mobile app for configuring and testing motors directly. Its self-test and plotting features let you confirm a motor works *before* you blame your code — which is often the fastest way to tell a code bug apart from a wiring bug.
+
+> **The most underrated debugging tool of all: the Driver Station console.** When something is wrong, the console (and its message log) usually already told you — exceptions, CAN timeouts, "not configured" errors, and brownouts all print there. Read the actual error *before* changing any code. Changing things at random instead of reading the message that names your exact problem is the number-one beginner mistake.
+
+---
+
+## Part 2 — Claiming Your GitHub Student Developer Pack
+
+As a student, you're entitled to the **GitHub Student Developer Pack** — a free bundle of 80+ professional developer tools, including free GitHub Pro, GitHub Copilot for students, cloud credits, and JetBrains IDEs. You don't strictly need it for this course, but it's genuinely valuable and takes just a few minutes to apply for. If you already claimed it, you're done — skip this section.
+
+### First, the good news
+
+You **do not need a transcript.** A transcript is only *one* of several accepted proofs, and it's the least convenient one for a new student anyway (you may not have grades on file yet). GitHub verifies K-12 students using any official document that shows **your name plus your school's name**.
+
+### What you'll need
+
+* A **free GitHub account** (create one at https\://github.com if you haven't — this is also your Session 1 homework).
+* To be **at least 13 years old**.
+* **One** proof of enrollment, whichever is easiest for you:
+  * **Your SAS ID card** — the easiest option for most. Take a clear, uncropped photo showing your name, photo, and school name (SAS). *Don't edit or crop it* — GitHub's system may flag altered images.
+  * **Official/unofficial transcript** — A transcript from last year/semester showing your courses and grades. Can be found on Veracross.
+  * **Enrollment verification letter** — if you have neither of the above yet, ask the high school office or your parents for a short letter confirming you're currently enrolled. It should be current and show your name and the SAS school name.
+
+### How to apply
+
+1. Sign in to GitHub and go to your **Education benefits settings** (Settings → Billing and plans → GitHub Education, or visit https\://github.com/settings/education/benefits).
+2. Click **"Start an application."**
+3. Fill out the form — select your school, and upload your proof of enrollment (or use your school email if you have one).
+4. Click **"Submit application."**
+
+### What to expect
+
+* **Verification isn't always instant.** It can take anywhere from a few minutes to a few days, and occasionally takes a second attempt if a document photo gets flagged. **Apply about a week before you need it** — ideally before our Git session — so it's approved in time.
+* Once approved, you'll get an email, and you can check your status anytime under "GitHub Education" in your settings.
+* Verification **lasts about 2 years**, after which you re-verify.
+
+### If verification gets stuck — don't panic
+
+You do **not** need the Pack to do any coursework. GitHub's free tier already gives you unlimited public *and* private repositories, collaboration, and everything we'll use in class. So even if your ID photo gets rejected on the first try, a plain free account is enough to create a repo, commit, and push. Chase the Pack on your own time — it's a bonus, not a requirement.
+
+---
+
+*Stuck on something? Read the error first, check the right doc from Part 1, search Chief Delphi — and if you're still stuck after that, bring the exact error message to a lead. "It doesn't work" is hard to help with; "I get this specific error on this line" gets solved fast.*

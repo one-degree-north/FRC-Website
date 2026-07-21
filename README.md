@@ -39,7 +39,7 @@ every deploy).
 | Path | What it is |
 | --- | --- |
 | `src/pages/` | Marketing pages (home, about, outreach). Plain Astro files. |
-| `src/content/docs/lessons/` | **All lesson content.** One folder per subteam, one folder per lesson. Markdown files. |
+| `src/content/docs/lessons/` | **All lesson content.** One folder per subteam, one Markdown file per lesson. |
 | `src/assets/gallery/` | Drop team photos here — the home page gallery picks them up automatically. |
 | `src/data/site.json` | Editable team text (tagline, about story, contact email). |
 | `keystatic.config.ts` | Defines the CMS editing forms. |
@@ -48,8 +48,8 @@ every deploy).
 ## Common tasks
 
 **Add a lesson** — use the CMS at `/keystatic` (no code needed), or create
-`src/content/docs/lessons/<subteam>/<NN-slug>/index.mdx` by hand. The
-numeric prefix (`01-`, `02-`, …) controls sidebar order.
+`src/content/docs/lessons/<subteam>/<NN-slug>.mdx` by hand. The numeric
+prefix (`01-`, `02-`, …) controls sidebar order.
 
 **Add a subteam** — create a new folder under `src/content/docs/lessons/`
 with a first lesson inside (the sidebar updates automatically), and add a

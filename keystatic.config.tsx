@@ -4,8 +4,9 @@ import { BrandMark } from './src/keystatic/BrandMark';
 /**
  * Every subteam gets its own collection so the CMS sidebar mirrors the team
  * structure. Lessons are stored as plain MDX files in
- * src/content/docs/lessons/<subteam>/<lesson-slug>/index.mdx — Starlight
- * picks them up automatically, and they stay readable even without Keystatic.
+ * src/content/docs/lessons/<subteam>/<lesson-slug>.mdx — Starlight picks them
+ * up automatically, and they stay readable even without Keystatic. One flat
+ * file per lesson (not a folder) so each shows as a single sidebar entry.
  *
  * Lessons appear in the site sidebar alphabetically by slug, so prefix slugs
  * with numbers to control order: 01-intro, 02-java-basics, ...
@@ -16,7 +17,7 @@ function lessonCollection(label: string, folder: string) {
 		// as a list of lessons at a glance, without needing to hover an entry.
 		label: `${label} Lessons`,
 		slugField: 'title',
-		path: `src/content/docs/lessons/${folder}/*/`,
+		path: `src/content/docs/lessons/${folder}/*`,
 		entryLayout: 'content',
 		format: { contentField: 'content' },
 		// Surfaces the description in the list table alongside the title,

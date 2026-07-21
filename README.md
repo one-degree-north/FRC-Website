@@ -56,6 +56,13 @@ with a first lesson inside (the sidebar updates automatically), and add a
 matching collection in `keystatic.config.ts` (copy an existing
 `lessonCollection(...)` line).
 
+**Add an image to a lesson** — edit the lesson in the CMS at `/keystatic` and
+use the editor's image button (or paste/drag an image into the content). It's
+saved automatically under `public/lesson-images/<subteam>/<slug>/` and embedded
+with an absolute path that always resolves — no manual file handling. iPhone
+`.heic` files are rejected by the uploader; convert to JPEG or PNG first
+(opening and re-exporting the photo works).
+
 **Add photos** — use the CMS **"Photo gallery"** (upload, describe, reorder,
 delete — no code needed). iPhone photos are often `.heic`, which the uploader
 rejects — convert to JPEG first (opening and re-exporting the photo works).

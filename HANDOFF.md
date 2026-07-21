@@ -133,6 +133,12 @@ with `restrictions.teams`.)
   blockquote (`> **Tip:** …`) instead. Editors using the CMS won't hit this
   (it only produces standard Markdown); it's a trap only for hand-edited
   files.
+- **Two image pipelines by design**: lesson body images (inserted via the CMS
+  MDX editor) are stored in `public/lesson-images/<subteam>/<slug>/` and served
+  as-is — no Astro optimization, but the reference always resolves, which is why
+  they're kept out of the asset pipeline. The home-page photo *gallery* instead
+  stores under `src/assets/gallery` and is optimized via `import.meta.glob` in
+  `PhotoGallery.astro`. Don't merge the two.
 - **Where build failures show up**: the GitHub Actions "build" check on
   each commit (red ✗ = that commit broke the build; the live site keeps
   serving the last good deploy), and the Vercel dashboard → Deployments.

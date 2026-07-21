@@ -8,6 +8,9 @@ import { BrandMark } from './src/keystatic/BrandMark';
  * up automatically, and they stay readable even without Keystatic. One flat
  * file per lesson (not a folder) so each shows as a single sidebar entry.
  *
+ * Images inserted into a lesson via the CMS are saved under
+ * public/lesson-images/<subteam>/<slug>/ and referenced by absolute URL.
+ *
  * Lessons appear in the site sidebar alphabetically by slug, so prefix slugs
  * with numbers to control order: 01-intro, 02-java-basics, ...
  */
@@ -36,7 +39,23 @@ function lessonCollection(label: string, folder: string) {
 				label: 'Short description',
 				description: 'Shown under the title and in search results. Optional.',
 			}),
-			content: fields.mdx({ label: 'Lesson content' }),
+			content: fields.mdx({
+			label: 'Lesson content',
+			options: {
+				image: {
+					// Uploaded lesson images land in public/ and are referenced by
+					// an absolute /lesson-images/... URL, which Astro serves
+					// verbatim — so the reference always resolves without any
+					// relative-path juggling. Keystatic appends the lesson slug,
+					// so each lesson gets its own folder:
+					// public/lesson-images/<subteam>/<slug>/<file>. The subteam
+					// (folder) is baked in so same-named slugs across subteams
+					// (every team has an "intro") never collide.
+					directory: `public/lesson-images/${folder}`,
+					publicPath: `/lesson-images/${folder}/`,
+				},
+			},
+		}),
 		},
 	});
 }

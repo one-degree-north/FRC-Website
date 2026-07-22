@@ -13,6 +13,12 @@ import { BrandMark } from './src/keystatic/BrandMark';
  *
  * Lessons appear in the site sidebar alphabetically by slug, so prefix slugs
  * with numbers to control order: 01-intro, 02-java-basics, ...
+ *
+ * The path glob is ** (not *), so a slug may contain a / to nest a lesson in a
+ * subfolder — e.g. slug "drivetrain/01-bellypan" writes
+ * <subteam>/drivetrain/01-bellypan.mdx, which Starlight renders as a
+ * collapsible "Drivetrain" sidebar group. A plain slug (no /) stays a flat,
+ * single-line entry.
  */
 function lessonCollection(label: string, folder: string) {
 	return collection({
@@ -20,7 +26,7 @@ function lessonCollection(label: string, folder: string) {
 		// as a list of lessons at a glance, without needing to hover an entry.
 		label: `${label} Lessons`,
 		slugField: 'title',
-		path: `src/content/docs/lessons/${folder}/*`,
+		path: `src/content/docs/lessons/${folder}/**`,
 		entryLayout: 'content',
 		format: { contentField: 'content' },
 		// Surfaces the description in the list table alongside the title,
@@ -30,9 +36,9 @@ function lessonCollection(label: string, folder: string) {
 			title: fields.slug({
 				name: { label: 'Title' },
 				slug: {
-					label: 'Slug (controls sidebar order)',
+					label: 'Slug (controls sidebar order & grouping)',
 					description:
-						'Lessons sort alphabetically by slug — start it with a number to set the order: 01-intro, 02-sensors, …',
+						'Lessons sort alphabetically by slug — start it with a number to set the order: 01-intro, 02-sensors, …. To put this lesson inside a sidebar group, start the slug with a group name and a slash, e.g. drivetrain/01-bellypan.',
 				},
 			}),
 			description: fields.text({

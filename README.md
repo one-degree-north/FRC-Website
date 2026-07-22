@@ -56,6 +56,13 @@ with a first lesson inside (the sidebar updates automatically), and add a
 matching collection in `keystatic.config.ts` (copy an existing
 `lessonCollection(...)` line).
 
+**Group lessons into a section** — give a lesson a slug of the form
+`group-name/lesson-slug` (e.g. `drivetrain/01-bellypan`). Every lesson sharing
+the same `group-name/` prefix collapses together under one "Group Name" heading
+in the sidebar. Only group when you have 2+ lessons for it — a group with a
+single lesson just adds a redundant nested line. Plain lessons (no slash) stay
+flat.
+
 **Add an image to a lesson** — edit the lesson in the CMS at `/keystatic` and
 use the editor's image button (or paste/drag an image into the content). It's
 saved automatically under `public/lesson-images/<subteam>/<slug>/` and embedded

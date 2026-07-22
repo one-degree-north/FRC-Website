@@ -139,6 +139,13 @@ with `restrictions.teams`.)
   they're kept out of the asset pipeline. The home-page photo *gallery* instead
   stores under `src/assets/gallery` and is optimized via `import.meta.glob` in
   `PhotoGallery.astro`. Don't merge the two.
+- **Lesson sidebar groups come from slug prefixes.** The lesson collections use
+  `path: 'src/content/docs/lessons/<subteam>/**'` (note the `**`), so a slug with
+  a slash — `drivetrain/01-bellypan` — writes a nested subfolder that Starlight's
+  autogenerate turns into a collapsible group. The group label is the folder name
+  and groups sort alphabetically by it; to force order you'd prefix the folder
+  (`01-drivetrain/…`), at the cost of the label reading "01 Drivetrain". Plain
+  slugs (no slash) stay flat single-line entries — that's the default.
 - **Where build failures show up**: the GitHub Actions "build" check on
   each commit (red ✗ = that commit broke the build; the live site keeps
   serving the last good deploy), and the Vercel dashboard → Deployments.

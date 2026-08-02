@@ -31,3 +31,15 @@ The indexer brings game pieces up to a shooting/launching mechanism. It usually 
 ### Spindexer
 
 The spindexer serves a similar function to the indexer where it prepares to feed it into the indexer. It is usually used in games involving balls and spherical objects due to the spindexer's shape.&#x20;
+
+## Elevators
+
+elevators are essential to elevate certain robot subsystems. One of the most common uses are in games with elevated platforms and hooks that award game points for putting or placing game objects onto. In recent years many different elevators were seen used in games such as 2025's REEFSCAPE and 2023's CHARGED UP where elevators were used to pick up items like algae, coral, cones and inflatable cubes to place on elevated platforms and hooks. In FRC to there are several ways to build a elevator and they all have their respective pros and cons.
+
+### Continuous Elevator
+
+The continuous elevator uses a singular cable to raise the output. This singular cable raising causes the stages to move one ay a time. The continuous elevator has a comparably lower center of gravity compared to other elevators and require less maximum torque to operate. One of its primary mechanical advantages is a staged lifting sequence. In this system, the lowest stage must fully extend before the next stage begins to lift. This sequential movement keeps the overall center of gravity low for as long as possible and reduces initial power spikes because the motor only fights the weight of one stage at a time during startup. Furthermore, this design offers simple packaging and easy maintenance access. Cables run inside the structure easily to keep the outside clean, and because a single line loops through the system, tensioning the entire elevator can often be done at a single adjustment point.
+
+### Cascade Elevator
+
+The cascade elevator has all the stages intertwined as they move in unison with each other. One of its primary mechanical advantages is highly predictable movement. Because all stages move simultaneously and at the same rate, position control and sensor tracking are very simple and reliable. This was used on our teams 2025 robot to perform tasks such as reaching to place coral elements onto the coral reef. However due to all these simultaneous stages moving the overall elevator system requires more work and torque to operate.

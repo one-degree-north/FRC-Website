@@ -2,19 +2,95 @@
 title: Intro to Electrical
 description: What the electrical subteam does and how these lessons work.
 ---
+# Welcome to the Electrical Subteam!
 
-Welcome to the electrical subteam! We wire the robot: power distribution,
-motor controllers, sensors, and the control system that ties it together.
+We wire and troubleshoot the systems that **power, control, and connect the robot** — from the battery to motors and sensors.
 
-## What you'll learn
+## What You'll Learn
 
-- Electrical safety and wiring standards
-- The FRC control system (roboRIO, PDH, radio)
-- Crimping, soldering, and cable management
-- Troubleshooting with a multimeter
+* Electrical safety and good wiring practices
+* How power flows through an FRC robot
+* The **new 2027 SystemCore control system**
+* Power distribution & circuit breakers
+* Motors and motor controllers
+* CAN communication
+* Sensors
+* Crimping, soldering, and cable management
+* Multimeter use and troubleshooting
 
-## Writing lessons for this subteam
+## General Resources&#x20;
 
-This page is a placeholder — replace it with your real intro lesson. See the
-[programming intro](/lessons/programming/01-intro/) for the formatting
-template.
+### 1. FRC Electrical System
+
+Learn the major components and how they connect.
+
+→ [2027 SystemCore Introduction](https://docs.wpilib.org/en/2027/docs/software/systemcore-info/systemcore-introduction.html)\
+→ [What's New for FRC 2027](https://docs.wpilib.org/en/2027/docs/yearly-overview/yearly-changelog.html)\
+→ [FRC Control System Hardware](https://docs.wpilib.org/en/stable/docs/controls-overviews/control-system-hardware.html)
+
+### 2. Power
+
+Battery → main breaker → power distribution → robot devices.
+
+Learn wire gauge, breakers, voltage drop, shorts, and brownouts.
+
+→ [REV Power Distribution Hub](https://docs.revrobotics.com/ion-control/pdh/overview)\
+→ [PDH Wiring Guide](https://docs.revrobotics.com/ion-control/pdh/gs/wiring)\
+→ [Brownouts & Current Draw](https://docs.wpilib.org/en/2027/docs/software/systemcore-info/roborio-brownouts.html)
+
+### 3. Motors & Motor Controllers
+
+Learn how motors receive power and commands, and how our two main motor-control systems differ.
+
+**REV SPARK MAX**
+
+* Separate motor controller
+* Power input → SPARK MAX → motor
+* CAN connection for control and configuration
+
+→ [SPARK MAX Overview](https://docs.revrobotics.com/brushless/spark-max/overview)\
+→ [SPARK MAX Wiring](https://docs.revrobotics.com/brushless/spark-max/gs/wiring)\
+→ [SPARK MAX Control Interfaces](https://docs.revrobotics.com/brushless/spark-max/control-interfaces)
+
+**CTRE Talon FX / Kraken**
+
+* Talon FX controller is integrated into the Kraken motor
+* Power and CAN connect directly to the motor/controller assembly
+* Configured using Phoenix Tuner X
+
+→ [Talon FX / Kraken Overview](https://v6.docs.ctr-electronics.com/en/stable/docs/hardware-reference/talonfx/index.html)\
+→ [Phoenix Tuner X](https://v6.docs.ctr-electronics.com/en/stable/docs/tuner/index.html)4. CAN & Sensors
+
+Learn how robot devices communicate and how sensors connect to SystemCore.
+
+→ [SystemCore Ports & Smart I/O](https://docs.wpilib.org/en/2027/docs/software/systemcore-info/systemcore-introduction.html)\
+→ [CTRE CAN Basics](https://v5.docs.ctr-electronics.com/en/stable/ch02_PrimerCAN.html)
+
+### 5. Wiring Skills
+
+Practice:
+
+* Wire stripping
+* Crimping
+* Ferrules
+* Soldering
+* Heat shrink
+* Strain relief
+* Labeling
+* Cable management
+
+→ [FRC Robot Wiring Guide](https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html)
+
+### 6. Troubleshooting
+
+Learn to diagnose:
+
+* Robot won't turn on
+* Motor won't move
+* Device isn't detected
+* CAN errors
+* Loose connections
+* Brownouts
+
+→ [PDH Troubleshooting](https://docs.revrobotics.com/ion-control/pdh/troubleshooting)\
+→ [CAN Troubleshooting](https://v6.docs.ctr-electronics.com/en/2025/docs/troubleshooting/canbus-troubleshooting.html)

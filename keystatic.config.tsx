@@ -126,6 +126,32 @@ export default config({
 			name: '\u200B',
 			mark: BrandMark,
 		},
+		// Without this, Keystatic lumps every collection under one generic
+		// "Collections" heading — so the ten subteam collections read as one
+		// undifferentiated list. Splitting them mirrors the two sections of the
+		// site itself (/lessons/ and /documentation/).
+		//
+		// Note: supplying `navigation` REPLACES Keystatic's default sections
+		// wholesale, so the singletons have to be listed here too or they drop
+		// out of the sidebar. Every key must match a collection/singleton key
+		// below — Keystatic throws "Unknown navigation key" on a typo.
+		navigation: {
+			Lessons: [
+				'programming',
+				'mechanical',
+				'electrical',
+				'cad',
+				'business',
+			],
+			Documentation: [
+				'programmingDocs',
+				'mechanicalDocs',
+				'electricalDocs',
+				'cadDocs',
+				'businessDocs',
+			],
+			Singletons: ['site', 'gallery'],
+		},
 	},
 	collections: {
 		programming: lessonCollection('Programming', 'programming'),

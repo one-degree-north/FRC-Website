@@ -1,4 +1,5 @@
-/* Burgundy theme for the Starlight lessons, matching the marketing site.
+/* Burgundy theme for every Starlight page — both /lessons/ and
+   /documentation/ — matching the marketing site.
    Starlight is themed by overriding its CSS custom properties. Dark mode is
    the `:root` default; light mode is `:root[data-theme='light']`.
    See https://starlight.astro.build/guides/css-and-tailwind/ */

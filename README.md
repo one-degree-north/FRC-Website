@@ -1,12 +1,13 @@
 # One Degree North — Team Website
 
 Website for FRC Team 4817, One Degree North (Singapore American School).
-Two jobs: tell people who we are, and host our subteam lesson modules.
+Two jobs: tell people who we are, and host our subteam lessons and
+documentation.
 
 - **Live site:** https://frc-website-zeta.vercel.app
 - **Edit content:** https://frc-website-zeta.vercel.app/keystatic — sign in
   with GitHub (you need to be in the org's **FRC Robotics** team). No local
-  setup needed to add or edit lessons.
+  setup needed to add or edit lessons or documentation.
 
 **Taking this project over? Read [HANDOFF.md](./HANDOFF.md).**
 
@@ -40,10 +41,11 @@ every deploy).
 | --- | --- |
 | `src/pages/` | Marketing pages (home, about, outreach). Plain Astro files. |
 | `src/content/docs/lessons/` | **All lesson content.** One folder per subteam, one Markdown file per lesson. |
+| `src/content/docs/documentation/` | **All reference documentation.** Same shape as lessons: one folder per subteam, one Markdown file per article. |
 | `src/assets/gallery/` | Drop team photos here — the home page gallery picks them up automatically. |
 | `src/data/site.json` | Editable team text (tagline, about story, contact email). |
 | `keystatic.config.ts` | Defines the CMS editing forms. |
-| `astro.config.mjs` | Site config (title, lesson sidebar). |
+| `astro.config.mjs` | Site config (title, lessons + documentation sidebar). |
 
 ## Common tasks
 
@@ -51,21 +53,29 @@ every deploy).
 `src/content/docs/lessons/<subteam>/<NN-slug>.mdx` by hand. The numeric
 prefix (`01-`, `02-`, …) controls sidebar order.
 
+**Add a documentation article** — exactly the same, but in your subteam's
+**Documentation** collection in the CMS, or by hand at
+`src/content/docs/documentation/<subteam>/<NN-slug>.mdx`. Lessons teach a
+skill from scratch; documentation is the reference you come back to (build
+standards, tool setups, checklists).
+
 **Add a subteam** — create a new folder under `src/content/docs/lessons/`
-with a first lesson inside (the sidebar updates automatically), and add a
-matching collection in `keystatic.config.ts` (copy an existing
-`lessonCollection(...)` line).
+and/or `src/content/docs/documentation/` with a first page inside (the
+sidebar updates automatically), and add matching collections in
+`keystatic.config.ts` (copy an existing `lessonCollection(...)` /
+`documentationCollection(...)` line).
 
 **Group lessons into a section** — give a lesson a slug of the form
 `group-name/lesson-slug` (e.g. `drivetrain/01-bellypan`). Every lesson sharing
 the same `group-name/` prefix collapses together under one "Group Name" heading
 in the sidebar. Only group when you have 2+ lessons for it — a group with a
 single lesson just adds a redundant nested line. Plain lessons (no slash) stay
-flat.
+flat. Documentation articles group the same way.
 
 **Add an image to a lesson** — edit the lesson in the CMS at `/keystatic` and
 use the editor's image button (or paste/drag an image into the content). It's
-saved automatically under `public/lesson-images/<subteam>/<slug>/` and embedded
+saved automatically under `public/lesson-images/<subteam>/<slug>/` (documentation
+images go to `public/documentation-images/<subteam>/<slug>/`) and embedded
 with an absolute path that always resolves — no manual file handling. iPhone
 `.heic` files are rejected by the uploader; convert to JPEG or PNG first
 (opening and re-exporting the photo works).
@@ -82,6 +92,6 @@ info" form).
 ## Stack
 
 [Astro](https://astro.build) + [Starlight](https://starlight.astro.build)
-(lessons UI) + [Keystatic](https://keystatic.com) (browser CMS), deployed on
+(lessons + documentation UI) + [Keystatic](https://keystatic.com) (browser CMS), deployed on
 Vercel. All content is plain Markdown/JSON in this repo — no database, no
 server to maintain.

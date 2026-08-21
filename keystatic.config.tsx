@@ -3,30 +3,51 @@ import { BrandMark } from './src/keystatic/BrandMark';
 
 /**
  * Every subteam gets its own collection so the CMS sidebar mirrors the team
- * structure. Lessons are stored as plain MDX files in
- * src/content/docs/lessons/<subteam>/<lesson-slug>.mdx — Starlight picks them
- * up automatically, and they stay readable even without Keystatic. One flat
- * file per lesson (not a folder) so each shows as a single sidebar entry.
+ * structure. Content is stored as plain MDX files under
+ * src/content/docs/<section>/<subteam>/<slug>.mdx — where <section> is
+ * `lessons` (training modules) or `documentation` (reference articles).
+ * Starlight picks both subtrees up automatically, and they stay readable even
+ * without Keystatic. One flat file per entry (not a folder) so each shows as a
+ * single sidebar entry.
  *
- * Images inserted into a lesson via the CMS are saved under
- * public/lesson-images/<subteam>/<slug>/ and referenced by absolute URL.
+ * Images inserted via the CMS are saved under
+ * public/<imageDir>/<subteam>/<slug>/ and referenced by absolute URL.
  *
- * Lessons appear in the site sidebar alphabetically by slug, so prefix slugs
+ * Entries appear in the site sidebar alphabetically by slug, so prefix slugs
  * with numbers to control order: 01-intro, 02-java-basics, ...
  *
- * The path glob is ** (not *), so a slug may contain a / to nest a lesson in a
+ * The path glob is ** (not *), so a slug may contain a / to nest an entry in a
  * subfolder — e.g. slug "drivetrain/01-bellypan" writes
  * <subteam>/drivetrain/01-bellypan.mdx, which Starlight renders as a
  * collapsible "Drivetrain" sidebar group. A plain slug (no /) stays a flat,
  * single-line entry.
  */
-function lessonCollection(label: string, folder: string) {
+function subteamCollection(options: {
+	/** Subteam name shown in the CMS, e.g. "Programming". */
+	label: string;
+	/** Folder name under the section directory, e.g. "programming". */
+	folder: string;
+	/** Section directory under src/content/docs — "lessons" or "documentation". */
+	section: string;
+	/** Section name shown in the CMS, e.g. "Lessons" or "Documentation". */
+	sectionLabel: string;
+	/** Singular noun for one entry, e.g. "lesson" or "article". */
+	noun: string;
+	/**
+	 * Folder under public/ for body images. Kept explicit (rather than derived
+	 * from `section`) because the lessons pipeline already ships images under
+	 * public/lesson-images/ — renaming it would break every existing embed.
+	 */
+	imageDir: string;
+}) {
+	const { label, folder, section, sectionLabel, noun, imageDir } = options;
+	const Noun = noun.charAt(0).toUpperCase() + noun.slice(1);
 	return collection({
-		// Suffixed with "Lessons" so the collection list page reads clearly
-		// as a list of lessons at a glance, without needing to hover an entry.
-		label: `${label} Lessons`,
+		// Suffixed with the section name so the collection list page reads
+		// clearly at a glance, without needing to hover an entry.
+		label: `${label} ${sectionLabel}`,
 		slugField: 'title',
-		path: `src/content/docs/lessons/${folder}/**`,
+		path: `src/content/docs/${section}/${folder}/**`,
 		entryLayout: 'content',
 		format: { contentField: 'content' },
 		// Surfaces the description in the list table alongside the title,
@@ -38,7 +59,7 @@ function lessonCollection(label: string, folder: string) {
 				slug: {
 					label: 'Slug (controls sidebar order & grouping)',
 					description:
-						'Lessons sort alphabetically by slug — start it with a number to set the order: 01-intro, 02-sensors, …. To put this lesson inside a sidebar group, start the slug with a group name and a slash, e.g. drivetrain/01-bellypan.',
+						`${Noun}s sort alphabetically by slug — start it with a number to set the order: 01-intro, 02-sensors, …. To put this ${noun} inside a sidebar group, start the slug with a group name and a slash, e.g. drivetrain/01-bellypan.`,
 				},
 			}),
 			description: fields.text({
@@ -46,23 +67,47 @@ function lessonCollection(label: string, folder: string) {
 				description: 'Shown under the title and in search results. Optional.',
 			}),
 			content: fields.mdx({
-			label: 'Lesson content',
-			options: {
-				image: {
-					// Uploaded lesson images land in public/ and are referenced by
-					// an absolute /lesson-images/... URL, which Astro serves
-					// verbatim — so the reference always resolves without any
-					// relative-path juggling. Keystatic appends the lesson slug,
-					// so each lesson gets its own folder:
-					// public/lesson-images/<subteam>/<slug>/<file>. The subteam
-					// (folder) is baked in so same-named slugs across subteams
-					// (every team has an "intro") never collide.
-					directory: `public/lesson-images/${folder}`,
-					publicPath: `/lesson-images/${folder}/`,
+				label: `${Noun} content`,
+				options: {
+					image: {
+						// Uploaded images land in public/ and are referenced by an
+						// absolute /<imageDir>/... URL, which Astro serves verbatim —
+						// so the reference always resolves without any relative-path
+						// juggling. Keystatic appends the entry slug, so each entry
+						// gets its own folder:
+						// public/<imageDir>/<subteam>/<slug>/<file>. The subteam
+						// (folder) is baked in so same-named slugs across subteams
+						// (every team has an "intro") never collide.
+						directory: `public/${imageDir}/${folder}`,
+						publicPath: `/${imageDir}/${folder}/`,
+					},
 				},
-			},
-		}),
+			}),
 		},
+	});
+}
+
+/** Training modules — /lessons/<subteam>/<slug>/ */
+function lessonCollection(label: string, folder: string) {
+	return subteamCollection({
+		label,
+		folder,
+		section: 'lessons',
+		sectionLabel: 'Lessons',
+		noun: 'lesson',
+		imageDir: 'lesson-images',
+	});
+}
+
+/** Reference articles — /documentation/<subteam>/<slug>/ */
+function documentationCollection(label: string, folder: string) {
+	return subteamCollection({
+		label,
+		folder,
+		section: 'documentation',
+		sectionLabel: 'Documentation',
+		noun: 'article',
+		imageDir: 'documentation-images',
 	});
 }
 
@@ -88,6 +133,11 @@ export default config({
 		electrical: lessonCollection('Electrical', 'electrical'),
 		cad: lessonCollection('CAD', 'cad'),
 		business: lessonCollection('Business', 'business'),
+		programmingDocs: documentationCollection('Programming', 'programming'),
+		mechanicalDocs: documentationCollection('Mechanical', 'mechanical'),
+		electricalDocs: documentationCollection('Electrical', 'electrical'),
+		cadDocs: documentationCollection('CAD', 'cad'),
+		businessDocs: documentationCollection('Business', 'business'),
 	},
 	singletons: {
 		site: singleton({

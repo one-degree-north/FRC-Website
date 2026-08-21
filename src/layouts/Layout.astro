@@ -18,7 +18,9 @@ const ogImage = new URL('/og.png', Astro.site ?? Astro.url);
 const nav = [
 	{ label: 'About', href: '/about/' },
 	{ label: 'Outreach', href: '/outreach/' },
-	{ label: 'Lessons', href: '/lessons/' },
+	// One tab for both Starlight sections: they share a sidebar, so landing
+	// on either one already exposes the other.
+	{ label: 'Lessons & Documentation', href: '/lessons/' },
 ];
 const currentPath = Astro.url.pathname;
 ---
